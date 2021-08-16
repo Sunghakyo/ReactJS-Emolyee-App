@@ -1,27 +1,25 @@
 import React, { Component } from "react";
 
-class layout extends Component {
+class Layout extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
-    const listStaff = this.props.staffs.map((staff) => {
+    const listStaff = this.props.staffs.map((staff, index) => {
       return (
-        <div className="col-12 col-md-6 col-xl-4 card ">
+        <div key={index} className="col-12 col-md-6 col-xl-4 card  staff-list">
           <p>{staff.name}</p>
         </div>
       );
     });
 
     return (
-      <div className="container">
-        <div className="row">{listStaff}</div>
-
+      <div className="container-fuild">
+        <div className="row ">{listStaff}</div>
         <p>Nhấn vào tên nhân viên để hiện thông tin</p>
       </div>
     );
   }
 }
 
-export default layout;
+export default Layout;

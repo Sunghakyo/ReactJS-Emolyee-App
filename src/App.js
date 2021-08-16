@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { STAFFS } from "./components/staffs";
 import { Navbar, NavbarBrand } from "reactstrap";
 import Layout from "./components/liststaffs";
+import DetailStaffs from "./components/detailStaff";
 
 class App extends Component {
   constructor(props) {
@@ -14,13 +15,14 @@ class App extends Component {
 
   render() {
     return (
-      <div>
+      <div className="container-fuild">
         <Navbar dark color="primary">
           <NavbarBrand>
             <h1>Ứng dụng quản lý nhân sự v1.0</h1>
           </NavbarBrand>
         </Navbar>
         <Layout staffs={this.state.staffs} />
+        <DetailStaffs staffs={this.state.staffs} />
       </div>
     );
   }
