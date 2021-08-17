@@ -5,9 +5,9 @@ class Liststaffs extends Component {
     super(props);
   }
   render() {
-    const listStaff = this.props.staffs.map((staff, index) => {
+    const listStaff = this.props.staffs.map((staff) => {
       return (
-        <div key={index} className="col-12 col-md-6 col-xl-4 card staff-list">
+        <div className="col-12 col-md-6 col-xl-4 card staff-list">
           <p>{staff.name}</p>
         </div>
       );
