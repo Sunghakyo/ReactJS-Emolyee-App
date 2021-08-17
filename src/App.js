@@ -15,11 +15,10 @@ class App extends Component {
   }
 
   render() {
-    const { staffs, selectStaff } = this.state;
+    const { selectStaff, staffs } = this.state;
     const onClick = (selectStaff) => {
       this.setState({ ...this.state, selectStaff });
     };
-
     return (
       <div className="container-fuild">
         <Navbar dark color="primary">
@@ -27,8 +26,12 @@ class App extends Component {
             <h1>Ứng dụng quản lý nhân sự v1.0</h1>
           </NavbarBrand>
         </Navbar>
-        <Liststaffs staffs={this.state.staffs} />
-        <DetailStaffs staffs={this.state.staffs} />
+        <Liststaffs
+          staffs={staffs}
+          onClick={onClick}
+          selectedStaff={selectStaff}
+        />
+        <DetailStaffs staff={selectStaff} />
       </div>
     );
   }
