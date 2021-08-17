@@ -4,6 +4,7 @@ class Liststaffs extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     const listStaff = this.props.staffs.map((staff) => {
       return (
@@ -14,9 +15,9 @@ class Liststaffs extends Component {
     });
 
     return (
-      <div className="container-fuild">
+      <div className="container-fluid">
         <div className="row ">{listStaff}</div>
-        <p>Nhấn vào tên nhân viên để hiện thông tin</p>
+        {!selectedStaff && <p>Nhấn vào tên nhân viên để hiện thông tin</p>}
       </div>
     );
   }

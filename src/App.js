@@ -10,7 +10,11 @@ class App extends Component {
 
     this.state = {
       staffs: STAFFS,
+<<<<<<< HEAD
       selectStaff: null,
+=======
+      selectedStaff: null,
+>>>>>>> b65d921f0297fabe312dc90a7e73229fb4ce3f33
     };
   }
 
