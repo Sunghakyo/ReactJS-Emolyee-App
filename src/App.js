@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { STAFFS } from "./components/staffs";
 import { Navbar, NavbarBrand } from "reactstrap";
-import Layout from "./components/liststaffs";
+import Liststaffs from "./components/liststaffs";
 import DetailStaffs from "./components/detailStaff";
 
 class App extends Component {
@@ -10,10 +10,16 @@ class App extends Component {
 
     this.state = {
       staffs: STAFFS,
+      selectStaff: null,
     };
   }
 
   render() {
+    const { staffs, selectStaff } = this.state;
+    const onClick = (selectStaff) => {
+      this.setState({ ...this.state, selectStaff });
+    };
+
     return (
       <div className="container-fuild">
         <Navbar dark color="primary">
@@ -21,7 +27,7 @@ class App extends Component {
             <h1>Ứng dụng quản lý nhân sự v1.0</h1>
           </NavbarBrand>
         </Navbar>
-        <Layout staffs={this.state.staffs} />
+        <Liststaffs staffs={this.state.staffs} />
         <DetailStaffs staffs={this.state.staffs} />
       </div>
     );

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 
-class Layout extends Component {
+class Liststaffs extends Component {
   constructor(props) {
     super(props);
   }
   render() {
     const listStaff = this.props.staffs.map((staff, index) => {
       return (
-        <div key={index} className="col-12 col-md-6 col-xl-4 card  staff-list">
+        <div key={index} className="col-12 col-md-6 col-xl-4 card staff-list">
           <p>{staff.name}</p>
         </div>
       );
@@ -22,4 +22,4 @@ class Layout extends Component {
   }
 }
 
-export default Layout;
+export default Liststaffs;
