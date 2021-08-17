@@ -10,6 +10,7 @@ class App extends Component {
 
     this.state = {
       staffs: STAFFS,
+      selectedStaff: null,
     };
   }
 
@@ -21,8 +22,8 @@ class App extends Component {
             <h1>Ứng dụng quản lý nhân sự v1.0</h1>
           </NavbarBrand>
         </Navbar>
-        <Layout staffs={this.state.staffs} />
-        <DetailStaffs staffs={this.state.staffs} />
+        <Layout staffs={staffs} />
+        <DetailStaffs staff={staffs} />
       </div>
     );
   }

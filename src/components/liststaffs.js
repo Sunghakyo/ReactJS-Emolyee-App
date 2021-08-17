@@ -4,19 +4,27 @@ class Layout extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
+    const { selectedStaff } = this.props;
     const listStaff = this.props.staffs.map((staff, index) => {
       return (
-        <div key={index} className="col-12 col-md-6 col-xl-4 card  staff-list">
+        <div
+          key={index}
+          className="col-12 col-md-6 col-xl-4 card staff-list"
+          onClick={() => {
+            this.props.onStaffClick(staff);
+          }}
+        >
           <p>{staff.name}</p>
         </div>
       );
     });
 
     return (
-      <div className="container-fuild">
+      <div className="container-fluid">
         <div className="row ">{listStaff}</div>
-        <p>Nhấn vào tên nhân viên để hiện thông tin</p>
+        {!selectedStaff && <p>Nhấn vào tên nhân viên để hiện thông tin</p>}
       </div>
     );
   }
