@@ -6,25 +6,32 @@ class Liststaffs extends Component {
   }
 
   render() {
-    const { SelectedStaff } = this.props;
-    const listStaff = this.props.Staffs.map((staff, index) => {
+    const { SelectedStaff, OnChangeColumn } = this.props;
+    const listStaff = this.props.Staffs.map((staff) => {
       return (
-        <div
-          key={index}
-          className="col-12 col-md-6 col-xl-4 card staff-list"
-          onClick={() => {
-            this.props.onStaffClick(staff);
-          }}
-        >
-          <p>{staff.name}</p>
-        </div>
+        (OnChangeColumn === true) ?
+          (<div
+            className="col-12 col-md-6 col-xl-3 card staff-list"
+            onClick={() => {
+              this.props.onStaffClick(staff);
+            }}
+          >
+            <p>{staff.name}</p>
+          </div>) : (<div
+            className="col-12 col-md-6 col-xl-4 card staff-list"
+            onClick={() => {
+              this.props.onStaffClick(staff);
+            }}
+          >
+            <p>{staff.name}</p>
+          </div>)
       );
     });
 
     return (
       <div className="container list">
         <div className="row ">{listStaff}</div>
-        {!SelectedStaff && <p>Nhấn vào tên nhân viên để hiện thông tin</p>}
+        {!SelectedStaff && <p className="text-center">Nhấn vào tên nhân viên để hiện thông tin</p>}
       </div>
     );
   }

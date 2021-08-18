@@ -3,6 +3,8 @@ import DetailStaff from "./components/detailStaff";
 import Liststaffs from "./components/liststaffs";
 import { STAFFS } from "./components/staffs";
 import { Navbar, NavbarBrand } from "reactstrap";
+import ChangeColumn from "./components/changeColumn";
+
 
 class App extends Component {
   constructor(props) {
@@ -11,29 +13,39 @@ class App extends Component {
     this.state = {
       Staffs: STAFFS,
       SelectedStaff: null,
+      OnChangeColumn: null
     };
+    this.onClickChange = this.onClickChange.bind(this);
   }
 
   onStaffClick(SelectedStaff) {
     this.setState({ SelectedStaff: SelectedStaff })
   }
 
-  render() {
+  onClickChange(OnChangeColumn) {
+    this.setState({ OnChangeColumn: OnChangeColumn })
+  }
 
+  render() {
+    const { Staffs, SelectedStaff, OnChangeColumn } = this.state
     return (
-      <div className="container-fuild">
+      <div className="container-fuild" >
         <Navbar dark color="primary">
           <NavbarBrand>
             <h1 className="text-center">Ứng dụng quản lý nhân sự v1.0</h1>
           </NavbarBrand>
         </Navbar>
         <Liststaffs
-          Staffs={this.state.Staffs}
+          Staffs={Staffs}
           onStaffClick={(SelectedStaff) => { this.onStaffClick(SelectedStaff) }}
-          SelectedStaff={this.state.SelectedStaff}
+          SelectedStaff={SelectedStaff}
+          OnChangeColumn={OnChangeColumn}
         />
-        <DetailStaff Staff={this.state.SelectedStaff} />
-      </div>
+        <DetailStaff Staff={SelectedStaff} />
+        <ChangeColumn
+          OnChangeColumn={OnChangeColumn}
+          onClickChange={this.onClickChange} />
+      </div >
     );
   }
 }

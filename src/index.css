@@ -3,9 +3,16 @@
   background-color: #28a745 !important;
   text-align: center !important;
   padding-top: 10px !important;
+  border: 1px solid #000 !important;
 }
 
 .detail {
   margin: 20px auto 20px;
   text-align: center;
+}
+
+
+.btn-change {
+  border-radius: 5px !important;
+  background-color: yellow
 }

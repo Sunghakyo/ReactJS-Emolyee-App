@@ -7,6 +7,7 @@ class DetailStaff extends Component {
   }
 
   render() {
+
     return (
       <div>
         {this.props.Staff && (
