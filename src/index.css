@@ -4,3 +4,8 @@
   text-align: center !important;
   padding-top: 10px !important;
 }
+
+.detail {
+  margin: 20px auto 20px;
+  text-align: center;
+}

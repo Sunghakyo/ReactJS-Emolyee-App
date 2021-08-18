@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 
 class Liststaffs extends Component {
   constructor(props) {
@@ -6,18 +6,25 @@ class Liststaffs extends Component {
   }
 
   render() {
-    const listStaff = this.props.staffs.map((staff) => {
+    const { SelectedStaff } = this.props;
+    const listStaff = this.props.Staffs.map((staff, index) => {
       return (
-        <div className="col-12 col-md-6 col-xl-4 card staff-list">
+        <div
+          key={index}
+          className="col-12 col-md-6 col-xl-4 card staff-list"
+          onClick={() => {
+            this.props.onStaffClick(staff);
+          }}
+        >
           <p>{staff.name}</p>
         </div>
       );
     });
 
     return (
-      <div className="container-fluid">
+      <div className="container list">
         <div className="row ">{listStaff}</div>
-        {!selectedStaff && <p>Nhấn vào tên nhân viên để hiện thông tin</p>}
+        {!SelectedStaff && <p>Nhấn vào tên nhân viên để hiện thông tin</p>}
       </div>
     );
   }

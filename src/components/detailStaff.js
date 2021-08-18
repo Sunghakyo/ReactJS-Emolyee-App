@@ -1,8 +1,7 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import Moment from "react-moment";
-import "moment-timezone";
 
-class DetailStaffs extends Component {
+class DetailStaff extends Component {
   constructor(props) {
     super(props);
   }
@@ -10,20 +9,20 @@ class DetailStaffs extends Component {
   render() {
     return (
       <div>
-        {this.props.staff && (
-          <div className="card col-12 col-md-6 col-lg-4">
-            <h2>Họ và tên: {this.props.staff.name}</h2>
+        {this.props.Staff && (
+          <div className="card col-12 col-md-6 col-lg-4 detail">
+            <h2>Họ và tên: {this.props.Staff.name}</h2>
             <p>
               Ngày sinh:{" "}
-              <Moment format="DD/MM/YYYY">{this.props.staff.doB}</Moment>
+              <Moment format="DD/MM/YYYY">{this.props.Staff.doB}</Moment>
             </p>
             <p>
               Ngày vào công ty:{" "}
-              <Moment format="DD/MM/YYYY">{this.props.staff.startDate}</Moment>
+              <Moment format="DD/MM/YYYY">{this.props.Staff.startDate}</Moment>
             </p>
-            <p>Phòng ban: {this.props.staff.department.name}</p>
-            <p>Số ngày nghỉ còn lại: {this.props.staff.annualLeave}</p>
-            <p>Số ngày làm thêm: {this.props.staff.overTime}</p>
+            <p>Phòng ban: {this.props.Staff.department.name}</p>
+            <p>Số ngày nghỉ còn lại: {this.props.Staff.annualLeave}</p>
+            <p>Số ngày làm thêm: {this.props.Staff.overTime}</p>
           </div>
         )}
       </div>
@@ -31,4 +30,4 @@ class DetailStaffs extends Component {
   }
 }
 
-export default DetailStaffs;
+export default DetailStaff;
