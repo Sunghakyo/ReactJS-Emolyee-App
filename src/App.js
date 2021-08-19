@@ -1,28 +1,24 @@
-import React, { Component } from 'react';
-import './App.css';
-import { Navbar, NavbarBrand } from 'reactstrap'
-import Menu from './components/MenuComponent';
-import { DISHES } from './shared/dishes';
-
-
-
+import React, { Component } from "react";
+import "./App.css";
+import { Navbar, NavbarBrand } from "reactstrap";
+import Menu from "./components/MenuComponent";
+import { DISHES } from "./shared/dishes";
 
 class App extends Component {
-
   constructor(prop) {
     super(prop);
 
     this.state = {
-      dishes: DISHES
+      dishes: DISHES,
     };
   }
 
   render() {
     return (
       <div className="App">
-        <Navbar dark color='primary'>
-          <div className='container'>
-            <NavbarBrand href='/'>Ristoreante Con Fusion</NavbarBrand>
+        <Navbar dark color="primary">
+          <div className="container">
+            <NavbarBrand href="/">Ristoreante Con Fusion</NavbarBrand>
           </div>
         </Navbar>
         <Menu dishes={this.state.dishes} />
@@ -30,7 +26,5 @@ class App extends Component {
     );
   }
 }
-
-
 
 export default App;
