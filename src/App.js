@@ -11,7 +11,7 @@ class App extends Component {
   }
 
   render() {
-    return (<Menu dishes={this.state.dishes} />)
+    return <Menu dishes={this.state.dishes} />
   }
 }
 export default App;
