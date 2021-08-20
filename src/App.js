@@ -1,6 +1,8 @@
 import { Component } from 'react'
 import Menu from "./Components/MenuComponent"
 import { DISHES } from './shared/dishes';
+import Main from './Components/MainComponent';
+
 
 class App extends Component {
   constructor(props) {
@@ -11,7 +13,12 @@ class App extends Component {
   }
 
   render() {
-    return <Menu dishes={this.state.dishes} />
+    return (
+      <div className="App">
+        <Main />
+      </div>
+    )
+
   }
 }
 export default App;

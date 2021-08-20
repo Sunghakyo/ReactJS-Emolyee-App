@@ -12,21 +12,21 @@ class DishDetail extends Component {
     }
 
     render() {
-        const { selectedDish } = this.props
+        const { dish } = this.props
 
-        const Detail = selectedDish ?
-            (<div className="col-12 col-md-5 m-1">
+        const Detail = dish ?
+            (
                 <Card>
-                    <CardImg top src={selectedDish.image} alt={selectedDish.name} />
+                    <CardImg top src={dish.image} alt={dish.name} />
                     <CardBody>
-                        <CardTitle>{selectedDish.name}</CardTitle>
-                        <CardText>{selectedDish.description}</CardText>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
                     </CardBody>
                 </Card>
-            </div>) : null
+            ) : null
 
-        const Comment = selectedDish ?
-            (selectedDish.comments.map((comment) => {
+        const Comment = dish ?
+            (dish.comments.map((comment) => {
                 return <>
                     <p>{comment.comment}</p>
                     <span>{comment.date}</span>
@@ -35,22 +35,23 @@ class DishDetail extends Component {
             })) : null
 
         return <>
-            {Detail}
-            <div className="col-12 col-md-5 m-1">
-                <h3>Comments</h3>
-                {Comment}
+            <div className="container">
+                <div className="row">
+                    <div className="col-12 col-md-5 m-1">
+                        {Detail}
+                    </div>
+                    <div className="col-12 col-md-5 m-1">
+                        {dish && <h3>Comments</h3>}
+                        {Comment}
+                    </div>
+                </div>
+
             </div>
         </>
-
-
-
-
 
     }
 
 }
-
-
 
 
 export default DishDetail;
