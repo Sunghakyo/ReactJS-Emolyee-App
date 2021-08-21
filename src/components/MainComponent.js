@@ -1,6 +1,7 @@
 import React from 'react';
 import { STAFFS } from "./staffs";
 import { Switch, Route, Redirect } from "react-router-dom";
+import Home from './HomeComponent';
 import Header from "./HeaderComponent";
 import Footer from './FooterComponent';
 
@@ -13,16 +14,17 @@ class Main extends React.Component {
     }
 
     render() {
-        const Home = () => {
+        const { staffs } = this.state;
+        const HomePage = () => {
             return (
-                <Home />
+                <Home staffs={staffs} />
             )
         }
         return (
             <div>
                 <Header />
                 <Switch>
-                    <Route path="/home" Component={Home} />
+                    <Route path="/home" component={HomePage} />
                     <Redirect to="/home" />
                 </Switch>
                 <Footer />
