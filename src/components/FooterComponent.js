@@ -15,8 +15,8 @@ function Footer() {
                         <h3 className="mb-3">Trang</h3>
                         <ul className="list-unstyled">
                             <li ><Link className="text-reset text-decoration-none" to="/home">Nhân viên</Link> </li>
-                            <li ><Link className="text-reset text-decoration-none" to="/home">Bảng lương</Link></li>
-                            <li ><Link className="text-reset text-decoration-none" to="/home">Phòng ban</Link></li>
+                            <li ><Link className="text-reset text-decoration-none" to="/salary">Bảng lương</Link></li>
+                            <li ><Link className="text-reset text-decoration-none" to="/departments">Phòng ban</Link></li>
                         </ul>
                     </div>
                     <div className="col-4 col-md-3 text-center">
@@ -24,7 +24,7 @@ function Footer() {
                         <ul className="list-unstyled">
                             <li><a href="http://twitter.com" class="btn btn-social-icon btn-twitter fa fa-twitter" > </a></li>
                             <li><a href="https://www.facebook.com/profile.php?id=100039795430599" class="btn btn-social-icon btn-facebook fa fa-facebook" > </a></li>
-                            <li><a href="google.com" class="btn btn-social-icon btn-google fa fa-google" > </a></li>
+                            <li><a href="https://google.com" class="btn btn-social-icon btn-google fa fa-google" > </a></li>
                         </ul>
                     </div>
                 </div>

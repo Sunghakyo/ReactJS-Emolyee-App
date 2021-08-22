@@ -1,15 +1,4 @@
-.staff-list {
-  margin-top: 30px !important;
-  background-color: #28a745 !important;
-  text-align: center !important;
-  padding-top: 10px !important;
-  border: 1px solid #000 !important;
-}
 
-.detail {
-  margin: 20px auto 20px;
-  text-align: center;
-}
 
 
 .btn-change {
@@ -25,4 +14,10 @@
 .coppyright {
   background-color: #2772a8;
   padding: 30px;
+}
+
+
+.output {
+  border: 1px solid #000;
+  background-color: #ccc
 }

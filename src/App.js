@@ -2,9 +2,6 @@ import { Component } from "react";
 import { BrowserRouter } from 'react-router-dom';
 import Main from './components/MainComponent';
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
 
   render() {
 

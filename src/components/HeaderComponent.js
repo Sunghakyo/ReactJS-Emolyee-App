@@ -19,20 +19,20 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div>
+            <div >
                 <Navbar color="primary" primary light expand="md">
-                    <NavbarBrand href="/"><img src="/assets/images/logo.png" height="40" width="50" /></NavbarBrand>
+                    <NavbarBrand href="/"><img src="/assets/images/logo.png" alt="logo" height="40" width="50" /></NavbarBrand>
                     <NavbarToggler onClick={this.toggleNav} />
                     <Collapse isOpen={this.state.isNavOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <NavLink className="nav-link" to="./home"><i class="fa fa-users"></i>Nhân Viên</NavLink>
+                                <NavLink className="nav-link" to="/home"><i class="fa fa-users"></i>Nhân Viên</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to="./home"><i class="fa fa-id-card">Phòng Ban</i></NavLink>
+                                <NavLink className="nav-link" to="/departments"><i class="fa fa-id-card">Phòng Ban</i></NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to="./home"><i class="fa fa-money">Bảng Lương</i></NavLink>
+                                <NavLink className="nav-link" to="/salary"><i class="fa fa-money">Bảng Lương</i></NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>
