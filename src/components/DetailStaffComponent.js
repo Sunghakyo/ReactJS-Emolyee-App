@@ -28,6 +28,7 @@ function RenderStaffs({ staff }) {
 }
 
 const DetailStaff = (props) => {
+  console.log(props.staff)
   return (
     <div className="container">
       <div className="row">

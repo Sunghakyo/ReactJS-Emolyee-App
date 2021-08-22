@@ -17,6 +17,7 @@ class Main extends React.Component {
             staffs: STAFFS,
             departments: DEPARTMENTS
         }
+
     }
 
     render() {
@@ -25,15 +26,14 @@ class Main extends React.Component {
 
         // Component render Staff
         const staffId = ({ match }) => {
-            return (
-                <DetailStaff
-                    staff={staffs.filter((staff) => staff.id === parseInt(match.params.id), 10)[0]}
-                />
-            )
+            return < DetailStaff
+                staff={staffs.filter((staff) => staff.id === parseInt(match.params.id), 10)[0]}
+            />
         }
 
         //  component HomePage
-        const HomePage = () => {
+        const HomePage = ({ match }) => {
+            console.log(match)
             return (
                 <Home staffs={staffs} />
             )

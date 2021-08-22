@@ -22,9 +22,9 @@ function Footer() {
                     <div className="col-4 col-md-3 text-center">
                         <h3 className="mb-3">Contact Us</h3>
                         <ul className="list-unstyled">
-                            <li><a href="http://twitter.com" class="btn btn-social-icon btn-twitter fa fa-twitter" > </a></li>
-                            <li><a href="https://www.facebook.com/profile.php?id=100039795430599" class="btn btn-social-icon btn-facebook fa fa-facebook" > </a></li>
-                            <li><a href="https://google.com" class="btn btn-social-icon btn-google fa fa-google" > </a></li>
+                            <li><a href="http://twitter.com" className="btn btn-social-icon btn-twitter fa fa-twitter" > </a></li>
+                            <li><a href="https://www.facebook.com/profile.php?id=100039795430599" className="btn btn-social-icon btn-facebook fa fa-facebook" > </a></li>
+                            <li><a href="https://google.com" className="btn btn-social-icon btn-google fa fa-google" > </a></li>
                         </ul>
                     </div>
                 </div>
