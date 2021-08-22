@@ -44,6 +44,4 @@ const DetailStaff = (props) => {
   )
 }
 
-
-
 export default DetailStaff;
