@@ -43,7 +43,7 @@ class Main extends React.Component {
             <div>
                 <Header />
                 <Switch>
-                    <Route path="/home" component={HomePage} />
+                    <Route exact path="/home" component={HomePage} />
                     <Route exact path="/home/:id" component={staffId} />
                     <Route path="/salary" component={() => <SalarySheet staffs={staffs} />} />
                     <Route path="/departments" component={() => <DepartMents departments={departments} />} />

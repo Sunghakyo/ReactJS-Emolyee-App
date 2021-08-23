@@ -16,7 +16,6 @@ class Home extends React.Component {
 
     render() {
         const handleChangeText = e => {
-            console.log('hi')
             if (e.target.value === "") {
                 this.setState({
                     staffs: this.props.staffs,
