@@ -25,7 +25,9 @@ class Home extends React.Component {
             }
             //  xử lý nếu chưa nhập tên nhân viên tìm kiếm
 
-            let newStaff = [...this.props.staffs]
+            let newStaff = this.props.staffs
+            console.log(this.props.staffs)
+            console.log([...this.props.staffs])
             newStaff = newStaff.filter((staff) => staff.name.includes(e.target.value))
             this.setState({
                 staffs: newStaff,
