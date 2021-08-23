@@ -2,9 +2,8 @@ import { Card, CardTitle, CardBody } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from "react-router-dom";
 
-
+// component render thẻ phòng ban
 function DepartMent(props) {
-
     const depart = props.departments.map((department) => {
         return (
             <div className="col-12 col-md-6 col-lg-4">

@@ -1,6 +1,6 @@
 import React from 'react';
-import { DEPARTMENTS } from './staffs';
-import { STAFFS } from "./staffs";
+import { DEPARTMENTS } from './Staffs';
+import { STAFFS } from "./Staffs";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Home from './HomeComponent';
 import Header from "./HeaderComponent";
