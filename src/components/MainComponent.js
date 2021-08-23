@@ -20,10 +20,6 @@ const mapStateToProps = state => {
 }
 
 class Main extends Component {
-    constructor(prop) {
-        super(prop);
-    }
-
 
 
 
