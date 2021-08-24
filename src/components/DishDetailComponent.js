@@ -1,9 +1,13 @@
 import React from "react";
+import CommentForm from "./CommentForm";
 import {
     Card, CardImg, CardText, CardBody,
     CardTitle, Breadcrumb, BreadcrumbItem
 } from 'reactstrap';
 import { Link } from 'react-router-dom';
+
+
+
 
 function RenderDish({ dish }) {
     return dish ?
@@ -54,11 +58,21 @@ const DishDetail = (props) => {
                 </div>
                 <div className="col-12 col-md-5 m-1">
                     <RenderComments comments={props.comments} />
+                    <CommentForm />
                 </div>
             </div>
         </div>
     );
 
 }
+
+
+
+
+
+
+
+
+
 
 export default DishDetail;
