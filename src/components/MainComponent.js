@@ -1,28 +1,30 @@
 import React from 'react';
-import { DEPARTMENTS } from './Staffs';
-import { STAFFS } from "./Staffs";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import Home from './HomeComponent';
 import Header from "./HeaderComponent";
 import Footer from './FooterComponent';
+import DepartMents from './DepartMentComponent';
+import SalarySheet from './SalarySheetComponent';
 import DetailStaff from './DetailStaffComponent';
-import DepartMents from "./DepartMentComponent";
-import SalarySheet from "./SalarySheetComponent";
+import { connect } from 'react-redux';
 
 
-class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            staffs: STAFFS,
-            departments: DEPARTMENTS
-        }
 
+const mapStateToProps = state => {
+    return {
+        staffs: state.staffs,
+        departments: state.departments
     }
 
-    render() {
-        const { staffs, departments } = this.state;
 
+}
+
+class Main extends React.Component {
+
+
+
+    render() {
+        const { staffs, departments } = this.props;
 
         // Component render Staff
         const staffId = ({ match }) => {
@@ -57,4 +59,4 @@ class Main extends React.Component {
 }
 
 
-export default Main;
+export default withRouter(connect(mapStateToProps)(Main));
