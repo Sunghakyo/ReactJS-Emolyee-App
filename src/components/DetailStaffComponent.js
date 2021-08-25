@@ -31,8 +31,8 @@ const DetailStaff = (props) => {
         </Breadcrumb>
       </div>
       <div className="row">
-        <RenderStaffs staff={props.staff} />
         {/* component render thẻ staff */}
+        <RenderStaffs staff={props.staff} />
       </div>
     </div>
   )

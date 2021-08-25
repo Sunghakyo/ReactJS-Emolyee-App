@@ -2,7 +2,7 @@ import { Card, CardImg, CardBody } from 'reactstrap';
 import React from 'react';
 import {
     Breadcrumb, BreadcrumbItem, Form, Row, Input, Col, Button,
-    Modal, ModalBody, ModalHeader, ModalFooter, FormGroup, Label
+    Modal, ModalBody, ModalHeader, FormGroup, Label, FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
 
@@ -14,11 +14,17 @@ class Home extends React.Component {
             staffs: this.props.staffs,
             isOpen: false,
             name: "",
-            doB: "",
-            startDate: ""
+            dOB: "",
+            dateIn: "",
+            submit: {
+                name: false,
+                dOB: false,
+                dateIn: false
+            }
         }
-        this.toggle = this.toggle.bind(this)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.toggle = this.toggle.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleInputChange = this.handleInputChange.bind(this);
     }
 
     // modal box
@@ -32,14 +38,25 @@ class Home extends React.Component {
         this.filterValue(value)
         e.preventDefault()
     }
+    //  lọc ra nhân viên ứng với tìm kiếm
     filterValue(value) {
         this.setState({
             staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(value))
         })
     }
 
-
     // validate modalbox
+
+
+    handleInputChange(e) {
+
+        const value = e.target.value;
+        const name = e.target.name;
+        this.setState({
+            [name]: value
+        })
+    }
+
     validate(name, dOB, dateIn) {
         const errors = {
             name: '',
@@ -47,8 +64,10 @@ class Home extends React.Component {
             dateIn: '',
 
         };
-
-        if (name === "" || name.length < 3)
+        if (name === "") {
+            errors.name = "Yêu cầu nhập"
+        }
+        if (name.length < 3)
             errors.name = 'Yêu cầu nhập tối thiểu 3 ký tự';
         else if (name.length > 30)
             errors.name = 'Yêu cầu nhập tối đa 30 ký tự';
@@ -61,10 +80,14 @@ class Home extends React.Component {
         return errors;
     }
 
+    onSubmit = (field) => (event) => {
+
+    }
+
 
 
     render() {
-        const errors = this.validate(this.state.name, this.state.doB, this.state.dateIn)
+        const errors = this.validate(this.state.name, this.state.dOB, this.state.dateIn)
 
         // duyệt qua mảng staffs render ra nhân viên
         const liststaff = this.state.staffs.map((staff, index) => {
@@ -93,33 +116,49 @@ class Home extends React.Component {
                     </div>
                     <div className="col-md-2">
                         <Modal isOpen={this.state.isOpen} toggle={this.toggle} >
-                            <ModalHeader toggle={this.toggle}><h3>Thêm Nhân Viên</h3></ModalHeader>
+                            <ModalHeader toggle={this.toggle}>Thêm Nhân Viên</ModalHeader>
                             <ModalBody>
-                                <Form>
+                                <Form onSubmit={this.onSubmit} >
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlfor="name" sm={3}>Tên</Label>
+                                        <Label htmlFor="name" sm={3}>Tên</Label>
                                         <Col sm={9}>
                                             <Input
                                                 type="text" id="name" name="name"
-
+                                                value={this.state.name}
+                                                onChange={this.handleInputChange}
+                                                valid={errors.name === ""}
+                                                invalid={errors.name !== ""}
                                             />
+                                            <FormFeedback>{errors.name}</FormFeedback>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlfor="dateOB" sm={3}>Ngày sinh</Label>
+                                        <Label htmlFor="dateOB" sm={3}>Ngày sinh</Label>
                                         <Col sm={9}>
                                             <Input
-                                                type="date" id="dateOB" name="dateOB" />
+                                                type="date" id="dateOB" name="dateOB"
+                                                value={this.state.dOB}
+                                                onChange={this.handleInputChange}
+                                                valid={errors.dOB === ""}
+                                                invalid={errors.dOB !== ""}
+                                            />
+                                            <FormFeedback>{errors.dOB}</FormFeedback>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlfor="dateIn" sm={3}>Ngày vào công ty</Label>
+                                        <Label htmlFor="dateIn" sm={3}>Ngày vào công ty</Label>
                                         <Col sm={9}>
-                                            <Input type="date" id="dateIn" name="dateIn" />
+                                            <Input type="date" id="dateIn" name="dateIn"
+                                                value={this.state.dateIn}
+                                                onChange={this.handleInputChange}
+                                                valid={errors.dateIn === ""}
+                                                invalid={errors.dateIn !== ""}
+                                            />
+                                            <FormFeedback>{errors.dateIn}</FormFeedback>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlfor="depart" sm={3}>Phòng Ban</Label>
+                                        <Label htmlFor="depart" sm={3}>Phòng Ban</Label>
                                         <Col sm={9}>
                                             <Input type="select" id="depart" name="depart" >
                                                 <option>Sale</option>
@@ -131,28 +170,26 @@ class Home extends React.Component {
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlfor="salary" sm={3}>Hệ Số Lương</Label>
+                                        <Label htmlFor="salary" sm={3}>Hệ Số Lương</Label>
                                         <Col sm={9}>
                                             <Input type="number" id="salary" />
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlfor="rest" sm={3}>Số ngày nghỉ còn lại</Label>
+                                        <Label htmlFor="rest" sm={3}>Số ngày nghỉ còn lại</Label>
                                         <Col sm={9}>
                                             <Input id="rest" type="number" />
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlfor="overTime" sm={3}>Số ngày đi làm thêm</Label>
+                                        <Label htmlFor="overTime" sm={3}>Số ngày đi làm thêm</Label>
                                         <Col sm={9}>
                                             <Input type="number" id="overTime" />
                                         </Col>
                                     </FormGroup>
+                                    <Button color="primary" type="submit"> Thêm </Button>
                                 </Form>
                             </ModalBody>
-                            <ModalFooter>
-                                <Button color="primary" >Thêm</Button>
-                            </ModalFooter>
                         </Modal>
                         <Button onClick={this.toggle}><i className="fa fa-plus"></i></Button>
                     </div>
@@ -174,7 +211,7 @@ class Home extends React.Component {
                 <div className="row">
                     {liststaff}
                 </div>
-            </div>
+            </div >
         )
 
     }
