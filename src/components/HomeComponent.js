@@ -20,8 +20,7 @@ class Home extends React.Component {
 
         }
         this.toggle = this.toggle.bind(this)
-        this.onChangeSearch = this.onChangeSearch.bind(this)
-        this.onChangeInfo = this.onChangeInfo.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     // modal box
@@ -29,54 +28,19 @@ class Home extends React.Component {
         this.setState({ isOpen: !this.state.isOpen })
     }
 
-    // tìm kiếm nhân viên
-    onChangeSearch(e) {
-        console.log('hi')
-        const value = e.target.value
-        if (value === "") {
-            this.setState({ staffs: this.props.staffs, search: value })
-            return
-        };
+    //search nhân viên
+    handleSubmit(e) {
+        const value = this.fullName.value
+        this.filterValue(value)
+        e.preventDefault()
+    }
+    filterValue(value) {
         this.setState({
-            search: value,
-            staffs: this.state.staffs.filter(staff => staff.name.includes(value))
+            staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(value))
         })
     }
 
 
-    onChangeInfo(e) {
-        console.log('s')
-        const value = e.target.value;
-        const name = e.target.name
-        this.setState({
-            [name]: value
-        })
-    }
-
-    validate(name, dateOB, startDate) {
-        const error = {
-            name: '',
-            dateOb: '',
-            startDate: ''
-        }
-        if (name === "") {
-            error.name = "Yêu cầu nhập"
-        }
-        if (name.length < 3) {
-            error.name = "Yêu cầu nhập tối thiểu 3 ký tự"
-        }
-        if (name.length > 30) {
-            error.name = "Yêu cầu nhập tối đa 30 ký tự"
-        }
-        if (dateOB === '') {
-            error.dateOb = "Yêu cầu nhập"
-        }
-        if (startDate === '') {
-            error.startDate = 'Yêu cầu nhập'
-        }
-
-        return error
-    }
 
 
     render() {
@@ -115,7 +79,7 @@ class Home extends React.Component {
                                         <Col sm={9}>
                                             <Input
                                                 type="text" id="name" name="name"
-                                                onchange={this.onChangeInfo}
+
                                             />
                                         </Col>
                                     </FormGroup>
@@ -171,16 +135,15 @@ class Home extends React.Component {
                         <Button onClick={this.toggle}><i className="fa fa-plus"></i></Button>
                     </div>
                     <div className="col-md-6">
-                        <Form onSubmit={this.onSubmit}>
+                        <Form onSubmit={this.handleSubmit}>
                             <Row className="form-group" >
                                 <Col md={10}>
-                                    <Input type="text"
-                                        value={this.state.search}
-                                        onChange={this.onChangeSearch}
+                                    <Input type="text" name="name" id="name"
+                                        innerRef={input => this.fullName = input}
                                     />
                                 </Col>
                                 <Col md={2} >
-                                    <Button color="primary" type="submit" onSubmit={this.onSubmit}>Tìm</Button>
+                                    <Button color="primary" type="submit" >Tìm</Button>
                                 </Col>
                             </Row>
                         </Form>
