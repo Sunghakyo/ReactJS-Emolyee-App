@@ -1,30 +1,31 @@
 import React from 'react';
-import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 import Home from './HomeComponent';
 import Header from "./HeaderComponent";
 import Footer from './FooterComponent';
 import DepartMents from './DepartMentComponent';
 import SalarySheet from './SalarySheetComponent';
 import DetailStaff from './DetailStaffComponent';
-import { connect } from 'react-redux';
+import { DEPARTMENTS } from './Staffs';
+import { STAFFS } from './Staffs';
 
 
-
-const mapStateToProps = state => {
-    return {
-        staffs: state.staffs,
-        departments: state.departments
-    }
-
-
-}
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            staffs: STAFFS,
+            departments: DEPARTMENTS
+        }
+    }
 
-
+    onAddStaff(newStaffs) {
+        this.setState({ staffs: newStaffs })
+    }
 
     render() {
-        const { staffs, departments } = this.props;
+        const { staffs, departments } = this.state;
 
         // Component render Staff
         const staffId = ({ match }) => {
@@ -36,7 +37,8 @@ class Main extends React.Component {
         // Component render list
         const HomePage = () => {
             return (
-                <Home staffs={staffs} />
+                <Home staffs={staffs}
+                    onSubmit={(newStaffs => this.onAddStaff(newStaffs))} />
             )
         }
 
@@ -59,4 +61,4 @@ class Main extends React.Component {
 }
 
 
-export default withRouter(connect(mapStateToProps)(Main));
+export default Main;

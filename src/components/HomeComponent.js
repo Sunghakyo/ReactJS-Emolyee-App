@@ -15,16 +15,16 @@ class Home extends React.Component {
             isOpen: false,
             name: "",
             dOB: "",
-            dateIn: "",
-            depart: "",
-            salary: "",
-            rest: "",
+            startDate: "",
+            department: "",
+            salaryScale: "",
+            annualLeave: "",
             overTime: "",
             submit: {
                 name: false,
                 dOB: false,
-                dateIn: false
-            }
+                startDate: false
+            },
         }
         this.toggle = this.toggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,31 +51,36 @@ class Home extends React.Component {
     }
 
     // validate modalbox
+
     handleSubmitForm() {
-
-        if (this.validate(this.state.name, this.state.dOB, this.state.dateIn)) {
-            this.setState({
-                submit: { ...this.state.submit, dOB: true, name: true, dateIn: true }
-            })
-            return
-        }
-
-
-        const newStaff = {
-            id: this.props.staffs.length,
-            name: this.state.name,
-            dOB: this.state.dOB,
-            dateIn: this.state.dateIn,
-            depart: this.state.depart,
-            salary: this.state.salary,
-            rest: this.state.rest,
-            overTime: this.state.overTime,
-        }
-        const newStaffs = [...this.props.staffs, ...[newStaff]];
         this.setState({
-            staffs: newStaffs
-        })
+            submit: { ...this.state.submit, dOB: true, name: true, startDate: true }
+        });
+        const errors = this.validate(this.state.name, this.state.startDate, this.state.dOB)
+        if (errors.flag === true) {
+            return;
+        } else {
+            this.toggle()
+            const newStaff = {
+                id: this.props.staffs.length,
+                name: this.state.name,
+                dOB: this.state.dOB,
+                startDate: this.state.startDate,
+                department: this.state.department,
+                salaryScale: this.state.salaryScale,
+                annualLeave: this.state.annualLeave,
+                overTime: this.state.overTime,
+            }
+            const newStaffs = [...this.props.staffs, ...[newStaff]];
+            this.setState({
+                staffs: newStaffs
+            })
+
+            this.props.onSubmit(newStaffs)
+        }
     }
+
+    // control form for modal
     handleInputChange(e) {
         const value = e.target.value;
         const name = e.target.name;
@@ -84,20 +89,24 @@ class Home extends React.Component {
             submit: { ...this.state.submit, [name]: true }
         })
     }
-
-    validate(name, dOB, dateIn) {
+    // validate for modal
+    validate(name, dOB, startDate) {
         const errors = {
             name: '',
             dOB: '',
-            dateIn: '',
+            startDate: '',
+            flag: false
         };
-
+        if (name === '' || dOB === '' || startDate === '') {
+            errors.flag = true;
+        }
         if (this.state.submit.name && name === '') {
             errors.name = "Yêu cầu nhập"
-        }
-        if (this.state.submit.name && name.length < 3) {
-            errors.name = 'Yêu cầu nhập tối thiểu 3 ký tự';
-        }
+        } else
+            if (this.state.submit.name && name.length < 3) {
+                errors.name = 'Yêu cầu nhập tối thiểu 3 ký tự';
+
+            }
         if (this.state.submit.name && name.length > 30) {
             errors.name = 'Yêu cầu nhập tối đa 30 ký tự';
         }
@@ -105,20 +114,16 @@ class Home extends React.Component {
         if (this.state.submit.dOB && dOB === "") {
             errors.dOB = 'Yêu cầu nhập';
         }
-        if (this.state.submit.dateIn && dateIn === "") {
-            errors.dateIn = 'Yêu cầu nhập';
+        if (this.state.submit.startDate && startDate === "") {
+            errors.startDate = 'Yêu cầu nhập';
         }
-        if (name == "" && dOB == "" && dateIn == "") {
-            return false;
-        }
-        return errors;
 
+        return errors;
     }
 
     render() {
-        const errors = this.validate(this.state.name, this.state.dOB, this.state.dateIn)
+        const errors = this.validate(this.state.name, this.state.dOB, this.state.startDate)
 
-        // duyệt qua mảng staffs render ra nhân viên
         const liststaff = this.state.staffs.map((staff, index) => {
             return (
                 <div key={index} className="col-6 col-md-4 col-xl-2 mb-3">
@@ -162,10 +167,10 @@ class Home extends React.Component {
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlFor="dateOB" sm={3}>Ngày sinh</Label>
+                                        <Label htmlFor="dOB" sm={3}>Ngày sinh</Label>
                                         <Col sm={9}>
                                             <Input
-                                                type="date" id="dateOB" name="dOB"
+                                                type="date" id="dOB" name="dOB"
                                                 value={this.state.dOB}
                                                 onChange={this.handleInputChange}
                                                 valid={errors.dOB === ""}
@@ -175,21 +180,23 @@ class Home extends React.Component {
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlFor="dateIn" sm={3}>Ngày vào công ty</Label>
+                                        <Label htmlFor="startDate" sm={3}>Ngày vào công ty</Label>
                                         <Col sm={9}>
-                                            <Input type="date" id="dateIn" name="dateIn"
-                                                value={this.state.dateIn}
+                                            <Input type="date" id="startDate" name="startDate"
+                                                value={this.state.startDate}
                                                 onChange={this.handleInputChange}
-                                                valid={errors.dateIn === ""}
-                                                invalid={errors.dateIn !== ""}
+                                                valid={errors.startDate === ""}
+                                                invalid={errors.startDate !== ""}
                                             />
-                                            <FormFeedback>{errors.dateIn}</FormFeedback>
+                                            <FormFeedback>{errors.startDate}</FormFeedback>
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlFor="depart" sm={3}>Phòng Ban</Label>
+                                        <Label htmlFor="department" sm={3}>Phòng Ban</Label>
                                         <Col sm={9}>
-                                            <Input type="select" id="depart" name="depart" >
+                                            <Input type="select" id="department" name="department"
+                                                onChange={this.handleInputChange}
+                                            >
                                                 <option>Sale</option>
                                                 <option>HR</option>
                                                 <option>Marketing</option>
@@ -199,21 +206,24 @@ class Home extends React.Component {
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlFor="salary" sm={3}>Hệ Số Lương</Label>
+                                        <Label htmlFor="salaryScale" sm={3}>Hệ Số Lương</Label>
                                         <Col sm={9}>
-                                            <Input type="number" id="salary" />
+                                            <Input type="number" id="salaryScale" name="salaryScale"
+                                                onChange={this.handleInputChange} />
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlFor="rest" sm={3}>Số ngày nghỉ còn lại</Label>
+                                        <Label htmlFor="annualLeave" sm={3}>Số ngày nghỉ còn lại</Label>
                                         <Col sm={9}>
-                                            <Input id="rest" type="number" />
+                                            <Input id="annualLeave" type="number" name="annualLeave"
+                                                onChange={this.handleInputChange} />
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
                                         <Label htmlFor="overTime" sm={3}>Số ngày đi làm thêm</Label>
                                         <Col sm={9}>
-                                            <Input type="number" id="overTime" />
+                                            <Input type="number" id="overTime" name="overTime"
+                                                onChange={this.handleInputChange} />
                                         </Col>
                                     </FormGroup>
                                     <Button onClick={this.handleSubmitForm} color="primary"> Thêm </Button>
