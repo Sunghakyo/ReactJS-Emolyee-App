@@ -5,7 +5,7 @@ import {
     Modal, ModalBody, ModalHeader, FormGroup, Label, FormFeedback,
 } from "reactstrap";
 import { Link } from "react-router-dom";
-
+import { DEPARTMENTS } from './Staffs';
 
 class Home extends React.Component {
     constructor(props) {
@@ -16,7 +16,7 @@ class Home extends React.Component {
             name: "",
             dOB: "",
             startDate: "",
-            department: "",
+            departments: "",
             salaryScale: "",
             annualLeave: "",
             overTime: "",
@@ -60,13 +60,15 @@ class Home extends React.Component {
         if (errors.flag === true) {
             return;
         } else {
+            console.log(this.state.dOB)
             this.toggle()
+            const department = DEPARTMENTS.find(department => department.id === this.state.departments)
             const newStaff = {
                 id: this.props.staffs.length,
                 name: this.state.name,
                 dOB: this.state.dOB,
                 startDate: this.state.startDate,
-                department: this.state.department,
+                department: department,
                 salaryScale: this.state.salaryScale,
                 annualLeave: this.state.annualLeave,
                 overTime: this.state.overTime,
@@ -123,7 +125,6 @@ class Home extends React.Component {
 
     render() {
         const errors = this.validate(this.state.name, this.state.dOB, this.state.startDate)
-
         const liststaff = this.state.staffs.map((staff, index) => {
             return (
                 <div key={index} className="col-6 col-md-4 col-xl-2 mb-3">
@@ -192,16 +193,15 @@ class Home extends React.Component {
                                         </Col>
                                     </FormGroup>
                                     <FormGroup className="mt-3" row>
-                                        <Label htmlFor="department" sm={3}>Phòng Ban</Label>
+                                        <Label htmlFor="departments" sm={3}>Phòng Ban</Label>
                                         <Col sm={9}>
-                                            <Input type="select" id="department" name="department"
-                                                onChange={this.handleInputChange}
-                                            >
-                                                <option>Sale</option>
-                                                <option>HR</option>
-                                                <option>Marketing</option>
-                                                <option>It</option>
-                                                <option>Finance</option>
+                                            <Input type="select" id="department" name="departments"
+                                                onChange={this.handleInputChange}>
+                                                <option value="Dept01" >Sale</option>
+                                                <option value="Dept02" >HR</option>
+                                                <option value="Dept03" >Marketing</option>
+                                                <option value="Dept04">It</option>
+                                                <option value="Dept05">Finance</option>
                                             </Input>
                                         </Col>
                                     </FormGroup>
