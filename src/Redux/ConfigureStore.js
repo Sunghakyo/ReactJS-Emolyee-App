@@ -6,6 +6,5 @@ export const ConfigureStore = () => {
         Reducer,
         initialState
     );
-    console.log(Store);
     return Store;
 }
