@@ -16,6 +16,10 @@ class Home extends React.Component {
             name: "",
             dOB: "",
             dateIn: "",
+            depart: "",
+            salary: "",
+            rest: "",
+            overTime: "",
             submit: {
                 name: false,
                 dOB: false,
@@ -25,6 +29,7 @@ class Home extends React.Component {
         this.toggle = this.toggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleInputChange = this.handleInputChange.bind(this);
+        this.handleSubmitForm = this.handleSubmitForm.bind(this);
     }
 
     // modal box
@@ -38,7 +43,7 @@ class Home extends React.Component {
         this.filterValue(value)
         e.preventDefault()
     }
-    //  lọc ra nhân viên ứng với tìm kiếm
+    //  lọc ra nhân viên ứng với tìm ksiếm
     filterValue(value) {
         this.setState({
             staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(value))
@@ -46,14 +51,37 @@ class Home extends React.Component {
     }
 
     // validate modalbox
+    handleSubmitForm() {
+
+        if (this.validate(this.state.name, this.state.dOB, this.state.dateIn)) {
+            this.setState({
+                submit: { ...this.state.submit, dOB: true, name: true, dateIn: true }
+            })
+            return
+        }
 
 
+        const newStaff = {
+            id: this.props.staffs.length,
+            name: this.state.name,
+            dOB: this.state.dOB,
+            dateIn: this.state.dateIn,
+            depart: this.state.depart,
+            salary: this.state.salary,
+            rest: this.state.rest,
+            overTime: this.state.overTime,
+        }
+        const newStaffs = [...this.props.staffs, ...[newStaff]];
+        this.setState({
+            staffs: newStaffs
+        })
+    }
     handleInputChange(e) {
-
         const value = e.target.value;
         const name = e.target.name;
         this.setState({
-            [name]: value
+            [name]: value,
+            submit: { ...this.state.submit, [name]: true }
         })
     }
 
@@ -62,29 +90,30 @@ class Home extends React.Component {
             name: '',
             dOB: '',
             dateIn: '',
-
         };
-        if (name === "") {
+
+        if (this.state.submit.name && name === '') {
             errors.name = "Yêu cầu nhập"
         }
-        if (name.length < 3)
+        if (this.state.submit.name && name.length < 3) {
             errors.name = 'Yêu cầu nhập tối thiểu 3 ký tự';
-        else if (name.length > 30)
+        }
+        if (this.state.submit.name && name.length > 30) {
             errors.name = 'Yêu cầu nhập tối đa 30 ký tự';
+        }
 
-        if (dOB === "")
+        if (this.state.submit.dOB && dOB === "") {
             errors.dOB = 'Yêu cầu nhập';
-        if (dateIn === "")
+        }
+        if (this.state.submit.dateIn && dateIn === "") {
             errors.dateIn = 'Yêu cầu nhập';
-
+        }
+        if (name == "" && dOB == "" && dateIn == "") {
+            return false;
+        }
         return errors;
-    }
-
-    onSubmit = (field) => (event) => {
 
     }
-
-
 
     render() {
         const errors = this.validate(this.state.name, this.state.dOB, this.state.dateIn)
@@ -118,7 +147,7 @@ class Home extends React.Component {
                         <Modal isOpen={this.state.isOpen} toggle={this.toggle} >
                             <ModalHeader toggle={this.toggle}>Thêm Nhân Viên</ModalHeader>
                             <ModalBody>
-                                <Form onSubmit={this.onSubmit} >
+                                <Form>
                                     <FormGroup className="mt-3" row>
                                         <Label htmlFor="name" sm={3}>Tên</Label>
                                         <Col sm={9}>
@@ -136,7 +165,7 @@ class Home extends React.Component {
                                         <Label htmlFor="dateOB" sm={3}>Ngày sinh</Label>
                                         <Col sm={9}>
                                             <Input
-                                                type="date" id="dateOB" name="dateOB"
+                                                type="date" id="dateOB" name="dOB"
                                                 value={this.state.dOB}
                                                 onChange={this.handleInputChange}
                                                 valid={errors.dOB === ""}
@@ -187,7 +216,7 @@ class Home extends React.Component {
                                             <Input type="number" id="overTime" />
                                         </Col>
                                     </FormGroup>
-                                    <Button color="primary" type="submit"> Thêm </Button>
+                                    <Button onClick={this.handleSubmitForm} color="primary"> Thêm </Button>
                                 </Form>
                             </ModalBody>
                         </Modal>

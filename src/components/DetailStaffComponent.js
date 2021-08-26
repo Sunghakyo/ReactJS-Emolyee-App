@@ -6,10 +6,10 @@ import { Link } from 'react-router-dom';
 
 function RenderStaffs({ staff }) {
   return (<>
-    <div className="col-12 col-md-4 col-lg-3">
-      <img src="assets/images/alberto.png" alt="avatar" />
+    <div className="col-12 col-md-2 col-lg-2">
+      <img src="/assets/images/alberto.png" alt="avatar" />
     </div>
-    <div className=" col-12 col-md-8 col-lg-9 ">
+    <div className=" col-12 col-md-10 col-lg-10 ">
       <h2>Họ và tên: {staff.name}</h2>
       <p> Ngày sinh: <Moment format="DD/MM/YYYY">{staff.doB}</Moment> </p>
       <p>Ngày vào công ty:{" "}<Moment format="DD/MM/YYYY">{staff.startDate}</Moment></p>
