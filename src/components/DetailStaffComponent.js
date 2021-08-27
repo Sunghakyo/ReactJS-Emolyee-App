@@ -11,9 +11,9 @@ function RenderStaffs({ staff }) {
     </div>
     <div className=" col-12 col-md-10 col-lg-10 ">
       <h2>Họ và tên: {staff.name}</h2>
-      <p> Ngày sinh: <Moment format="DD/MM/YYYY">{staff.doB}</Moment> </p>
+      <p> Ngày sinh: <Moment format="DD/MM/YYYY">{staff.dOB}</Moment> </p>
       <p>Ngày vào công ty:{" "}<Moment format="DD/MM/YYYY">{staff.startDate}</Moment></p>
-      <p>Phòng ban: {staff.department.name}</p>
+      <p>Phòng ban: {staff.department?.name}</p>
       <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
       <p>Số ngày làm thêm: {staff.overTime}</p>
     </div>

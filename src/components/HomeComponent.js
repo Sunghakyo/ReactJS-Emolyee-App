@@ -12,25 +12,18 @@ const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || val.length <= len;
 const minLength = (len) => val => !val || val.length >= len;
 
-
-
 class Home extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             staffs: this.props.staffs,
             isOpen: false,
-            name: "",
-            dOB: "",
-            startDate: "",
-            department: "",
-            salaryScale: "",
-            annualLeave: "",
-            overTime: "",
+            filter: this.props.staffs
         }
         this.toggle = this.toggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.handleSubmitForm = this.handleSubmitForm.bind(this);
+        this.handleFind = this.handleFind.bind(this);
+
     }
 
     // modal box
@@ -39,42 +32,38 @@ class Home extends React.Component {
     }
 
     //search nhân viên
-    handleSubmit(e) {
-        const value = this.fullName.value
-        this.filterValue(value)
-        e.preventDefault()
-    }
-    //  lọc ra nhân viên ứng với tìm ksiếm
-    filterValue(value) {
+    handleFind(value) {
         this.setState({
-            staffs: this.props.staffs.filter(staff => staff.name.toLowerCase().includes(value))
+            staffs: this.state.filter.filter(staff => staff.name.toLowerCase().includes(value.nameStaff)),
         })
+
     }
 
-    handleSubmitForm() {
+
+    handleSubmit(value) {
+        this.toggle()
+        const department = this.props.department.find(department => department.id === value.departments)
         const newStaff = {
-            id: this.props.staffs.length,
-            name: this.state.name,
-            dOB: this.state.dOB,
-            startDate: this.state.startDate,
-            department: this.state.department,
-            salaryScale: this.state.salaryScale,
-            annualLeave: this.state.annualLeave,
-            overTime: this.state.overTime,
+            id: this.state.filter.length,
+            name: value.name,
+            doB: value.name,
+            salaryScale: value.salaryScale,
+            startDate: value.startDate,
+            department: department,
+            annualLeave: value.annualLeave,
+            overTime: value.overTime,
         }
-        const newStaffs = [...this.props.staffs, ...[newStaff]];
+        const newStaffs = [...this.state.filter, ...[newStaff]]
         this.setState({
-            staffs: newStaffs
+            staffs: newStaffs,
+            filter: newStaffs
         })
+        this.props.onAddNewStaff(newStaffs)
     }
-
-
-
 
     render() {
 
-        // duyệt qua mảng staffs render ra nhân viên
-        const liststaff = this.state.staffs.map((staff, index) => {
+        const listStaff = this.state.staffs.map((staff, index) => {
             return (
                 <div key={index} className="col-6 col-md-4 col-xl-2 mb-3">
                     <Link className="text-reset text-decoration-none" to={`/home/${staff.id}`}>
@@ -102,15 +91,16 @@ class Home extends React.Component {
                         <Modal isOpen={this.state.isOpen} toggle={this.toggle} >
                             <ModalHeader toggle={this.toggle}>Thêm Nhân Viên</ModalHeader>
                             <ModalBody>
-                                <LocalForm>
+                                <LocalForm onSubmit={value => this.handleSubmit(value)}>
                                     <Row className="form-group">
                                         <Label htmlFor="name" md="2">Tên</Label>
                                         <Col md={10} >
-                                            <Control.text model=".name" name="name"
+                                            <Control model=".name"
                                                 className="form-control"
                                                 validators={{
                                                     required, maxLength: maxLength(30), minLength: minLength(3)
                                                 }}
+                                                onSubmit={(value) => this.getValue(value)}
                                             />
                                             <Errors
                                                 className='text-danger'
@@ -133,7 +123,7 @@ class Home extends React.Component {
                                                 }}
                                             />
                                             <Errors
-                                                className='text-danger'
+                                                className="text-danger"
                                                 model=".dOB"
                                                 messages={{
                                                     required: "Yêu cầu nhập"
@@ -163,11 +153,11 @@ class Home extends React.Component {
                                         <Label htmlFor="departments" md={2}>Phòng ban</Label>
                                         <Col md={10} >
                                             <Control.select model=".departments" name="department" className="form-control" >
-                                                <option>Sale</option>
-                                                <option>HR</option>
-                                                <option>Marketing</option>
-                                                <option>IT</option>
-                                                <option>Finance</option>
+                                                <option value="Dept01">Sale</option>
+                                                <option value="Dept02">HR</option>
+                                                <option value="Dept03">Marketing</option>
+                                                <option value="Dept04">IT</option>
+                                                <option value="Dept05">Finance</option>
                                             </Control.select >
                                         </Col>
                                     </Row>
@@ -177,16 +167,14 @@ class Home extends React.Component {
                                             <Control type="number" model=".salaryScale" name="salaryScale"
                                                 className="form-control"
                                             />
-
                                         </Col>
                                     </Row>
                                     <Row>
-                                        <Label htmlFor="" md="2">Số ngày nghỉ </Label>
+                                        <Label htmlFor="annualLeave" md="2">Số ngày nghỉ </Label>
                                         <Col md={10} >
-                                            <Control type="number" model=".salaryScale" name="salaryScale"
+                                            <Control type="number" model=".annualLeave" name="annualLeave"
                                                 className="form-control"
                                             />
-
                                         </Col>
                                     </Row>
                                     <Row>
@@ -197,33 +185,30 @@ class Home extends React.Component {
                                             />
                                         </Col>
                                     </Row>
-                                    <Button onClick={this.handleSubmitForm} color="primary"> Thêm </Button>
+                                    <Button type="submit" onClick={this.toggle} color="primary"> Thêm </Button>
                                 </LocalForm>
                             </ModalBody>
                         </Modal>
                         <Button onClick={this.toggle}><i className="fa fa-plus"></i></Button>
                     </div>
                     <div className="col-md-6">
-                        <Form onSubmit={this.handleSubmit}>
+                        <LocalForm onSubmit={this.handleFind}>
                             <Row className="form-group" >
                                 <Col md={10}>
-                                    <Input type="text" name="name" id="name"
-                                        innerRef={input => this.fullName = input}
-                                    />
+                                    <Control.text model=".nameStaff" className="form-control" />
                                 </Col>
                                 <Col md={2} >
-                                    <Button color="primary" type="submit" >Tìm</Button>
+                                    <Button color="primary" type="submit">Tìm</Button>
                                 </Col>
                             </Row>
-                        </Form>
+                        </LocalForm>
                     </div>
                 </div>
                 <div className="row">
-                    {liststaff}
+                    {listStaff}
                 </div>
             </div >
         )
-
     }
 }
 

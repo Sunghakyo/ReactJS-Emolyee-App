@@ -20,12 +20,22 @@ const mapStateToProps = state => {
 }
 
 class Main extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            staffs: this.props.staffs
+        }
+    }
 
-
+    addStaff(staffs) {
+        this.setState({
+            staffs: staffs
+        })
+    }
 
     render() {
-        const { staffs, departments } = this.props;
-
+        const { departments } = this.props;
+        const { staffs } = this.state;
         // Component render Staff
         const staffId = ({ match }) => {
             return <DetailStaff
@@ -36,7 +46,9 @@ class Main extends React.Component {
         // Component render list
         const HomePage = () => {
             return (
-                <Home staffs={staffs} />
+                <Home staffs={staffs} department={departments}
+                    onAddNewStaff={staffs => this.addStaff(staffs)}
+                />
             )
         }
 
