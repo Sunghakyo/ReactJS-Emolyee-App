@@ -10,11 +10,6 @@ import { STAFFS } from './Staffs';
 import { DEPARTMENTS } from './Staffs';
 
 
-
-
-
-
-
 class Main extends React.Component {
     constructor(props) {
         super(props);
@@ -23,7 +18,6 @@ class Main extends React.Component {
             departments: DEPARTMENTS
         }
     }
-
 
     render() {
         const { staffs, departments } = this.state;
@@ -42,7 +36,6 @@ class Main extends React.Component {
             )
         }
 
-
         return (
             <div>
                 <Header />
@@ -59,6 +52,5 @@ class Main extends React.Component {
 
     }
 }
-
 
 export default Main;

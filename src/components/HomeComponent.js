@@ -53,7 +53,6 @@ class Home extends React.Component {
 
             )
         });
-
         return (
             <div className="container">
                 <div className="row  mt-3">

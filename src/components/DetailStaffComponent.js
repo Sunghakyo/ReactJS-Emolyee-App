@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 function RenderStaffs({ staff }) {
   return (<>
     <div className="col-12 col-md-4 col-lg-3">
-      <img src="assets/images/alberto.png" alt="avatar" />
+      <img src={staff.image} />
     </div>
     <div className=" col-12 col-md-8 col-lg-9 ">
       <h2>Họ và tên: {staff.name}</h2>

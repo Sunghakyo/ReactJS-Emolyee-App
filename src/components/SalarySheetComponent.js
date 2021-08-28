@@ -2,29 +2,41 @@ import React from "react"
 import { Card, CardTitle, CardBody, Breadcrumb, BreadcrumbItem } from "reactstrap"
 import { Link } from "react-router-dom"
 
-
 class SalarySheet extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            staffs: this.props.staffs
+            staffs: this.props.staffs,
+            salary: 'salary',
+            id: 'id'
         }
-        this.sortSalaryAsc = this.sortSalaryAsc.bind(this)
-        this.sortIdAsc = this.sortIdAsc.bind(this)
+        this.sort = this.sort.bind(this)
     };
 
-    sortSalaryAsc() {
-        this.setState({
-            staffs: this.props.staffs.sort((a, b) => a.salaryScale - b.salaryScale)
+    sort(params) {
+        console.log('chay ')
+
+        if (params === 'salary') {
+            this.setState({
+                staffs: this.props.staffs.sort((a, b) => a.salaryScale - b.salaryScale)
+            });
+        } else if (params === 'id') {
+            this.setState({
+                staffs: this.props.staffs.sort((a, b) => a.id - b.id)
+            })
+        } else if (params === 'payRol') {
+            this.setState({
+                staffs: this.props.staffs.sort((a, b) => {
+                    const basicSalary = 3000000;
+                    const overTimeSalary = 200000;
+                    const salaryA = parseInt((a.salaryScale * basicSalary) + (a.overTime * overTimeSalary));
+                    const salaryB = parseInt((b.salaryScale * basicSalary) + (b.overTime * overTimeSalary));
+                    return salaryB - salaryA;
+                })
+            })
         }
-        );
     }
-    sortIdAsc() {
-        this.setState({
-            staffs: this.props.staffs.sort((a, b) => a.id - b.id)
-        }
-        );
-    }
+
 
     render() {
         //  UI thẻ bảng lương nhân viên
@@ -53,7 +65,7 @@ class SalarySheet extends React.Component {
 
         // UI trang Bảng lương
         return (
-            <div className="container">
+            <div className="container" >
                 <div className="row">
                     <Breadcrumb className="mt-3 mb-3">
                         <BreadcrumbItem>
@@ -69,12 +81,15 @@ class SalarySheet extends React.Component {
                 </div>
                 <div className="row mb-3">
                     <div className=" col-3  d-flex mx-auto">
-                        <button className="btn btn-primary btn-block" onClick={this.sortSalaryAsc} >Sắp xếp nhân viên theo hệ số lương</button>
+                        <button className="btn btn-primary btn-block" onClick={() => this.sort("salary")} >Sắp xếp nhân viên theo hệ số lương</button>
                     </div>
                     <div className=" col-3  d-flex mx-auto">
-                        <button className="btn btn-primary btn-block" onClick={this.sortIdAsc} >Sắp xếp nhân viên theo mã nhân viên</button>
+                        <button className="btn btn-primary btn-block" onClick={() => this.sort("id")} >Sắp xếp nhân viên theo mã nhân viên</button>
                     </div>
-                </div>
+                    <div className=" col-3  d-flex mx-auto">
+                        <button className="btn btn-primary btn-block" onClick={() => this.sort("payRol")} >Sắp xếp nhân viên theo lương</button>
+                    </div>
+                </div >
             </div >
         )
     }

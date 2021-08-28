@@ -3,8 +3,8 @@ import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from "react-router-dom";
 
 // component render thẻ phòng ban
-function DepartMent(props) {
-    const depart = props.departments.map((department) => {
+function RenderDepartment({ depart }) {
+    return depart.map((department) => {
         return (
             <div className="col-12 col-md-6 col-lg-4">
                 <Card className="mt-3 mb-3">
@@ -19,7 +19,9 @@ function DepartMent(props) {
         )
 
     })
+}
 
+const DepartMent = (props) => {
     return (
         <div className="container">
             <div className="row">
@@ -33,12 +35,10 @@ function DepartMent(props) {
                 </Breadcrumb>
             </div>
             <div className="row">
-                {depart}
+                <RenderDepartment depart={props.departments} />
             </div>
         </div>
     )
 }
-
-
 
 export default DepartMent;
