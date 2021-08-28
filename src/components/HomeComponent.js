@@ -13,6 +13,7 @@ class Home extends React.Component {
             staffs: this.props.staffs,
             isOpen: false,
             search: "",
+            filter: this.props.staffs,
 
         }
         this.onChangeSearch = this.onChangeSearch.bind(this)
@@ -22,6 +23,7 @@ class Home extends React.Component {
 
     // tìm kiếm nhân viên
     onChangeSearch(e) {
+        console.log(e.target.value)
         const value = e.target.value
         if (value === "") {
             this.setState({ staffs: this.props.staffs, search: value })
@@ -29,7 +31,7 @@ class Home extends React.Component {
         };
         this.setState({
             search: value,
-            staffs: this.state.staffs.filter(staff => staff.name.toLowerCase().includes(value))
+            staffs: this.state.filter.filter(staff => staff.name.toLowerCase().includes(value.toLowerCase()))
         })
     }
 
@@ -58,7 +60,7 @@ class Home extends React.Component {
                 <div className="row  mt-3">
                     <div className="col-md-3">
                         <Breadcrumb >
-                            <BreadcrumbItem ><Link className="text-reset text-decoration-none" to="/home"><h3>Nhân Viên</h3></Link></BreadcrumbItem>
+                            <BreadcrumbItem ><Link className=" text-decoration-none text-link" to="/home"><h3>Nhân Viên</h3></Link></BreadcrumbItem>
                         </Breadcrumb>
                     </div>
                     <div className="col-md-6">

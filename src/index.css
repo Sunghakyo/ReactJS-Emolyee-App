@@ -1,6 +1,8 @@
-
-
-
+#root {
+  background:  no-repeat url("https://va-demo.okami101.io/admin/img/splash.79942c13.jpg");
+  background-position: inherit;
+  background-size:  cover
+}
 
 .btn-change {
   border-radius: 5px !important;
@@ -21,4 +23,13 @@
 .output {
   border: 1px solid #000;
   background-color: #ccc
+}
+
+.card {
+  background-color: #3f96b5 !important;
+  box-shadow:   10px 10px 10px 1px #25050560;
+}
+
+.text-link {
+  color: white !important;
 }

@@ -27,10 +27,10 @@ const DepartMent = (props) => {
             <div className="row">
                 <Breadcrumb className="mt-3 mb-3">
                     <BreadcrumbItem>
-                        <Link className="text-reset text-decoration-none" to="/home" >Nhân Viên</Link>
+                        <Link className=" text-decoration-none text-link" to="/home" >Nhân Viên</Link>
                     </BreadcrumbItem>
                     <BreadcrumbItem>
-                        <Link className="text-reset text-decoration-none" to="/departments" >Ban Phòng</Link>
+                        <Link className=" text-decoration-none text-link" to="/departments" >Ban Phòng</Link>
                     </BreadcrumbItem>
                 </Breadcrumb>
             </div>

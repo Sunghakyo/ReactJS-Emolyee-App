@@ -26,8 +26,8 @@ const DetailStaff = (props) => {
     <div className="container">
       <div className="row">
         <Breadcrumb>
-          <BreadcrumbItem> <Link to="/home">Nhân viên</Link> </BreadcrumbItem>
-          <BreadcrumbItem active>{props.staff.name} </BreadcrumbItem>
+          <BreadcrumbItem> <Link to="/home" className="text-link">Nhân viên</Link> </BreadcrumbItem>
+          <BreadcrumbItem className="text-link" active>{props.staff.name} </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <div className="row">
