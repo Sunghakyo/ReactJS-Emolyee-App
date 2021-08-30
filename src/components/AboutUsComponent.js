@@ -13,7 +13,7 @@ function About(props) {
                 <div className="container">
                     <div className='row'>
                         <div className="col-md-2">
-                            <img className="mr-0" src={leader.image} />
+                            <img className="mr-0" src={leader.image} alt={leader.name} />
                         </div>
                         <div className="col-md-10">
                             <h3 className="mt-0 mb-1"> {leader.name}</h3>

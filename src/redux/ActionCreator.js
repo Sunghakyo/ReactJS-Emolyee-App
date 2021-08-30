@@ -44,7 +44,7 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
         .then(response => dispatch(addComment(response)))
         .catch(error => {
             console.log('Post comments', error.message);
-            alert('Your comment could not be posted\Error: ' + error.message);
+            alert('Your comment could not be postedError: ' + error.message);
         })
 }
 

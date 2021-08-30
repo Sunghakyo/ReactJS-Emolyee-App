@@ -9,10 +9,14 @@ import { LocalForm, Control } from 'react-redux-form';
 import { Link } from 'react-router-dom';
 import { Loading } from './LoadingComponents';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components';
 
 function RenderDish({ dish }) {
     return dish ?
-        (
+        (<FadeTransform in
+            transformProps={{
+                exitTransform: 'scale(0.5) translateY(-50%)'
+            }}>
             <Card>
                 <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
@@ -20,26 +24,33 @@ function RenderDish({ dish }) {
                     <CardText>{dish.description}</CardText>
                 </CardBody>
             </Card>
+        </FadeTransform>
+
         ) : null
 }
 
 function RenderComments({ comments, postComment, dishId }) {
     return (
         <div className="col-12 col-md-5 m-1">
-            {comments ?
-                (comments.map((comment) =>
-                    <>
-                        <ul key={comment.id} className="list-unstyled">
-                            <li>{comment.comment}</li>
-                            <li>
-                                <span >{comment.author}</span>
-                                <span >{comment.date}</span>
-                            </li>
-                        </ul>
+            <Stagger in>
+                {comments ?
+                    (comments.map((comment) => {
+                        return (
+                            <Fade in>
+                                <ul key={comment.id} className="list-unstyled">
+                                    <li>{comment.comment}</li>
+                                    <li>
+                                        <span >{comment.author}</span>
+                                        <span >{comment.date}</span>
+                                    </li>
+                                </ul>
+                            </Fade>
+                        )
+                    }))
+                    : null
+                }
+            </Stagger>
 
-                    </>
-                ))
-                : null}
             <CommentForm dishId={dishId} postComment={postComment} />
         </div>
     )
