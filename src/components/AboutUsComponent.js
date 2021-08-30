@@ -3,26 +3,32 @@ import { Link } from 'react-router-dom';
 import {
     Breadcrumb, BreadcrumbItem, Card, CardBody, Media, CardHeader
 } from 'reactstrap';
-
+import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform } from 'react-animation-components';
 
 function About(props) {
 
     const leaders = props.leaders.map((leader) => {
         return (
-            <Media>
-                <div className="container">
-                    <div className='row'>
-                        <div className="col-md-2">
-                            <img className="mr-0" src={leader.image} alt={leader.name} />
-                        </div>
-                        <div className="col-md-10">
-                            <h3 className="mt-0 mb-1"> {leader.name}</h3>
-                            <p className="mb-1"> {leader.designation}</p>
-                            <p> {leader.description} </p>
+            <FadeTransform in
+                transformProps={{
+                    exitTransform: 'scale(0.5) translateY(-50%)'
+                }}>
+                <Media>
+                    <div className="container">
+                        <div className='row'>
+                            <div className="col-md-2">
+                                <img className="mr-0" src={baseUrl + leader.image} alt={leader.name} />
+                            </div>
+                            <div className="col-md-10">
+                                <h3 className="mt-0 mb-1"> {leader.name}</h3>
+                                <p className="mb-1"> {leader.designation}</p>
+                                <p> {leader.description} </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </Media>
+                </Media>
+            </FadeTransform>
         );
     });
 
@@ -65,7 +71,7 @@ function About(props) {
                     <Card>
                         <CardBody className="bg-faded">
                             <blockquote className="blockquote">
-                                <p className="mb-0">You better cut the pizza in four pieces because
+                                <p >You better cut the pizza in four pieces because
                                     I'm not hungry enough to eat six.</p>
                                 <footer className="blockquote-footer">Yogi Berra,
                                     <cite title="Source Title">The Wit and Wisdom of Yogi Berra,
