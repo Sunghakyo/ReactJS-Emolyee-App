@@ -1,5 +1,4 @@
 import React from 'react';
-import { Switch, Route, Redirect } from "react-router-dom";
 import Home from './HomeComponent';
 import Header from "./HeaderComponent";
 import Footer from './FooterComponent';
@@ -7,17 +6,29 @@ import DepartMents from './DepartMentComponent';
 import SalarySheet from './SalarySheetComponent';
 import DetailStaff from './DetailStaffComponent';
 import { DEPARTMENTS } from './Staffs';
-import { STAFFS } from './Staffs';
+import { Switch, Route, Redirect, withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { fetchStaffs } from '../redux/ActionCreator';
 
+const mapStateToProps = (state) => ({
+    staffs: state.staffs
+})
 
+const mapDispatchToProps = (dispatch) => ({
+    fetchStaffs: () => dispatch(fetchStaffs()),
+})
 
 class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            staffs: STAFFS,
+            staffs: this.props.staffs,
             departments: DEPARTMENTS
         }
+    }
+
+    componentDidMount() {
+        this.props.fetchStaffs()
     }
 
     onAddStaff(newStaffs) {
@@ -25,19 +36,22 @@ class Main extends React.Component {
     }
 
     render() {
-        const { staffs, departments } = this.state;
+        const { departments } = this.state;
 
         // Component render Staff
         const staffId = ({ match }) => {
             return <DetailStaff
-                staff={staffs.filter((staff) => staff.id === parseInt(match.params.id), 10)[0]}
+                staff={this.props.staffs.filter((staff) => staff.id === parseInt(match.params.id), 10)[0]}
             />
         }
 
         // Component render list
         const HomePage = () => {
             return (
-                <Home staffs={staffs}
+                <Home
+                    staffs={this.props.staffs.staffs}
+                    staffsLoading={this.props.staffs.isLoading}
+                    staffsFailed={this.props.staffs.errMess}
                     onSubmit={(newStaffs => this.onAddStaff(newStaffs))} />
             )
         }
@@ -49,7 +63,7 @@ class Main extends React.Component {
                 <Switch>
                     <Route exact path="/home" component={HomePage} />
                     <Route exact path="/home/:id" component={staffId} />
-                    <Route path="/salary" component={() => <SalarySheet staffs={staffs} />} />
+                    <Route path="/salary" component={() => <SalarySheet staffs={this.props.staffs} />} />
                     <Route path="/departments" component={() => <DepartMents departments={departments} />} />
                     <Redirect to="/home" />
                 </Switch>
@@ -61,4 +75,4 @@ class Main extends React.Component {
 }
 
 
-export default Main;
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(Main));
