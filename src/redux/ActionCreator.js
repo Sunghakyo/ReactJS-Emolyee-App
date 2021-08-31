@@ -1,6 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from './BaseUrl';
 
+
 export const fetchStaffs = () => (dispatch) => {
     dispatch(staffsLoading(true));
 
@@ -36,4 +37,44 @@ export const staffsFailed = (errMess) => ({
 export const addStaffs = (staffs) => ({
     type: ActionTypes.ADD_STAFFS,
     payload: staffs
+});
+
+//fetch department
+export const fetchDepartments = () => (dispatch) => {
+    dispatch(departLoading(true))
+
+    return fetch(baseUrl + 'departments')
+        .then(response => {
+            if (response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error(`Error${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        },
+            error => {
+                var errMess = new Error(error.message);
+                throw errMess;
+            }
+        )
+
+        .then(response => response.json())
+        .then(depart => dispatch(addDepart(depart)))
+        .catch(error => dispatch(departFailed(error.message)))
+}
+
+export const departLoading = () => ({
+    type: ActionTypes.DEPARTMENTS_LOADING
+});
+
+export const departFailed = (errMess) => ({
+    type: ActionTypes.DEPARTMENTS_FAILED,
+    payload: errMess
+})
+
+export const addDepart = (depart) => ({
+    type: ActionTypes.ADD_DEPARTMENTS,
+    payload: depart
 });

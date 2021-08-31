@@ -7,6 +7,7 @@ import {
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from './LoadingComponent';
+import { Fade, Stagger, FadeTransform } from 'react-animation-components'
 
 const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || val.length <= len;
@@ -29,17 +30,26 @@ const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
     else {
         return staffs.map((staff, index) => {
             return (
-                <div key={index} className="col-6 col-md-4 col-xl-2 mb-3">
-                    <Link className="text-reset text-decoration-none" to={`/home/${staff.id}`}>
-                        <Card className="text-center ">
-                            <CardImg src="assets/images/alberto.png" />
-                            <CardBody>
-                                <h3 >{staff.name}</h3>
-                            </CardBody>
-                        </Card>
-                    </Link >
-                </div >
 
+                <div key={index} className="col-6 col-md-4 col-xl-2 mb-3">
+                    <FadeTransform in
+                        transformProps={{
+                            exitTransform: 'scale(0.5) translateY(-50%)'
+                        }}>
+                        <Stagger in>
+                            <Fade in>
+                                <Link className="text-reset text-decoration-none" to={`/home/${staff.id}`}>
+                                    <Card className="text-center ">
+                                        <CardImg src="assets/images/alberto.png" />
+                                        <CardBody>
+                                            <h3 >{staff.name}</h3>
+                                        </CardBody>
+                                    </Card>
+                                </Link >
+                            </Fade>
+                        </Stagger>
+                    </FadeTransform>
+                </div>
             )
         })
     }
