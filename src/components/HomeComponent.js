@@ -76,33 +76,25 @@ class Home extends React.Component {
     }
 
     //search nhân viên
-    handleFind(value) {
+    handleFind(values) {
         this.setState({
-            staffs: this.state.filter.filter(staff => staff.name.toLowerCase().includes(value.nameStaff)),
+            staffs: this.state.filter.filter(staff => staff.name.toLowerCase().includes(values.nameStaff)),
         })
 
     }
 
-
     handleSubmit(value) {
         this.toggle()
-        const department = this.props.department.find(department => department.id === value.departments)
-        const newStaff = {
-            id: this.state.filter.length,
-            name: value.name,
-            doB: value.name,
-            salaryScale: value.salaryScale,
-            startDate: value.startDate,
-            department: department,
-            annualLeave: value.annualLeave,
-            overTime: value.overTime,
-        }
-        const newStaffs = [...this.state.filter, ...[newStaff]]
-        this.setState({
-            staffs: newStaffs,
-            filter: newStaffs
-        })
-        this.props.onAddNewStaff(newStaffs)
+        const department = this.props.departments.find(department => department.id === value.departments)
+        const id = this.state.filter.length,
+            name = value.name,
+            dOB = value.dOB,
+            salaryScale = value.salaryScale,
+            startDate = value.startDate,
+            annualLeave = value.annualLeave,
+            overTime = value.overTime;
+
+        this.props.postStaff(id, name, dOB, salaryScale, startDate, department, annualLeave, overTime)
     }
 
     render() {
@@ -118,7 +110,7 @@ class Home extends React.Component {
                         <Modal isOpen={this.state.isOpen} toggle={this.toggle} >
                             <ModalHeader toggle={this.toggle}>Thêm Nhân Viên</ModalHeader>
                             <ModalBody>
-                                <LocalForm onSubmit={value => this.handleSubmit(value)}>
+                                <LocalForm onSubmit={values => this.handleSubmit(values)}>
                                     <Row className="form-group">
                                         <Label htmlFor="name" md="2">Tên</Label>
                                         <Col md={10} >
@@ -233,7 +225,7 @@ class Home extends React.Component {
                 </div>
                 <div className="row">
                     <ListStaffs
-                        staffs={this.props.staffs}
+                        staffs={this.state.staffs}
                         staffsLoading={this.props.staffsLoading}
                         staffsFailed={this.props.staffsFailed}
                     />

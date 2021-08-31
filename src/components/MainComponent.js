@@ -9,34 +9,29 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { DEPARTMENTS } from './Staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { fetchStaffs, fetchDepartments } from '../redux/ActionCreator';
+import { fetchStaffs, fetchDepartments, fetchSalary, postStaff } from '../redux/ActionCreator';
 
 const mapStateToProps = (state) => ({
     staffs: state.staffs,
-    depart: state.depart
+    depart: state.depart,
+    salary: state.salary
 })
 
 const mapDispatchToProps = (dispatch) => ({
     fetchStaffs: () => dispatch(fetchStaffs()),
     fetchDepart: () => dispatch(fetchDepartments()),
+    fetchSalary: () => dispatch(fetchSalary()),
+    postStaff: (id, name, dOB, salaryScale, startDate, department, annualLeave, overTime) => {
+        dispatch(postStaff(id, name, dOB, salaryScale, startDate, department, annualLeave, overTime))
+    },
 })
 
 class Main extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            staffs: this.props.staffs,
-            departments: DEPARTMENTS
-        }
-    }
 
     componentDidMount() {
         this.props.fetchStaffs()
         this.props.fetchDepart()
-    }
-
-    onAddStaff(newStaffs) {
-        this.setState({ staffs: newStaffs })
+        this.props.fetchSalary()
     }
 
     render() {
@@ -55,10 +50,10 @@ class Main extends React.Component {
                     staffs={this.props.staffs.staffs}
                     staffsLoading={this.props.staffs.isLoading}
                     staffsFailed={this.props.staffs.errMess}
-                    onSubmit={(newStaffs => this.onAddStaff(newStaffs))} />
+                    postStaff={this.props.postStaff}
+                    departments={this.props.depart.departments} />
             )
         }
-
 
         return (
             <div>
@@ -68,7 +63,7 @@ class Main extends React.Component {
                         <Switch>
                             <Route exact path="/home" component={HomePage} />
                             <Route exact path="/home/:id" component={staffId} />
-                            <Route path="/salary" component={() => <SalarySheet staffs={this.props.staffs.staffs} />} />
+                            <Route path="/salary" component={() => <SalarySheet staffs={this.props.salary.salary} />} />
                             <Route path="/departments" component={() => <Departments
                                 departments={this.props.depart.departments}
                                 isLoading={this.props.depart.isLoading}
