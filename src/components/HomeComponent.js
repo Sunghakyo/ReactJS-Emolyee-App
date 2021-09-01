@@ -1,5 +1,5 @@
 import { Card, CardImg, CardBody } from 'reactstrap';
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Breadcrumb, BreadcrumbItem, Row, Col, Button,
     Modal, ModalBody, ModalHeader, Label,
@@ -15,6 +15,8 @@ const minLength = (len) => val => !val || val.length >= len;
 
 //render card staffs
 const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
+    const [isOpen, setOpen] = useState(false)
+
     if (staffsLoading) {
         return (
             <Loading />
@@ -30,7 +32,6 @@ const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
     else {
         return staffs.map((staff, index) => {
             return (
-
                 <div key={index} className="col-6 col-md-4 col-xl-2 mb-3">
                     <FadeTransform in
                         transformProps={{
@@ -49,8 +50,7 @@ const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
                             </Fade>
                         </Stagger>
                     </FadeTransform>
-                </div>
-            )
+                </div>)
         })
     }
 }
@@ -109,7 +109,7 @@ class Home extends React.Component {
                     <div className="col-md-2">
                         <Modal isOpen={this.state.isOpen} toggle={this.toggle} >
                             <ModalHeader toggle={this.toggle}>Thêm Nhân Viên</ModalHeader>
-                            <ModalBody>
+                            <ModalBody ody>
                                 <LocalForm onSubmit={values => this.handleSubmit(values)}>
                                     <Row className="form-group">
                                         <Label htmlFor="name" md="2">Tên</Label>

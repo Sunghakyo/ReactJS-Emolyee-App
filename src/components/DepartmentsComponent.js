@@ -21,25 +21,29 @@ function Department({ depart, departLoading, departFailed }) {
     else {
         return depart.map(department => {
             return (
+
                 <div className="col-12 col-md-6 col-lg-4">
-                    <FadeTransform in
-                        transformProps={{
-                            exitTransform: 'scale(0.5) translateY(-50%)'
-                        }}>
-                        <Stagger in>
-                            <Fade in>
-                                <Card className="mt-3 mb-3">
-                                    <CardTitle>
-                                        <h3>{department.name}</h3>
-                                    </CardTitle>
-                                    <CardBody>
-                                        <p>Số lượng nhân viên {department.numberOfStaff}</p>
-                                    </CardBody>
-                                </Card>
-                            </Fade>
-                        </Stagger>
-                    </FadeTransform>
+                    <Link className="text-reset text-decoration-none" to={`/department/${department.id}`}>
+                        <FadeTransform in
+                            transformProps={{
+                                exitTransform: 'scale(0.5) translateY(-50%)'
+                            }}>
+                            <Stagger in>
+                                <Fade in>
+                                    <Card className="mt-3 mb-3">
+                                        <CardTitle>
+                                            <h3>{department.name}</h3>
+                                        </CardTitle>
+                                        <CardBody>
+                                            <p>Số lượng nhân viên {department.numberOfStaff}</p>
+                                        </CardBody>
+                                    </Card>
+                                </Fade>
+                            </Stagger>
+                        </FadeTransform>
+                    </Link>
                 </div>
+
             )
         })
     }
@@ -51,10 +55,7 @@ const DepartMents = (props) => {
             <div className="row">
                 <Breadcrumb className="mt-3 mb-3">
                     <BreadcrumbItem>
-                        <Link className="text-reset text-decoration-none" to="/home" >Nhân Viên</Link>
-                    </BreadcrumbItem>
-                    <BreadcrumbItem>
-                        <Link className="text-reset text-decoration-none" to="/departments" >Ban Phòng</Link>
+                        <Link className="text-reset text-decoration-none" to="/departments" >Phòng Ban</Link>
                     </BreadcrumbItem>
                 </Breadcrumb>
             </div>

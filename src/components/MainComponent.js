@@ -5,8 +5,8 @@ import Footer from './FooterComponent';
 import Departments from './DepartmentsComponent';
 import SalarySheet from './SalarySheetComponent';
 import DetailStaff from './DetailStaffComponent';
+import { StaffOfDepart } from './StaffOfDepart';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
-import { DEPARTMENTS } from './Staffs';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { fetchStaffs, fetchDepartments, fetchSalary, postStaff } from '../redux/ActionCreator';
@@ -35,11 +35,18 @@ class Main extends React.Component {
     }
 
     render() {
-
         // Component render Staff
         const staffId = ({ match }) => {
             return <DetailStaff
-                staff={this.props.staffs.filter((staff) => staff.id === parseInt(match.params.id), 10)[0]}
+                staff={this.props.staffs.staffs.filter((staff) => staff.id == match.params.id)[0]}
+            />
+        }
+
+        const departOfStaffs = ({ match }) => {
+            const depart = this.props.depart.departments.find(depart => depart.id === match.params.departId)
+            return <StaffOfDepart
+                staffs={this.props.staffs.staffs.filter(staff => staff.departmentId == match.params.departId)}
+                depart={depart}
             />
         }
 
@@ -51,7 +58,8 @@ class Main extends React.Component {
                     staffsLoading={this.props.staffs.isLoading}
                     staffsFailed={this.props.staffs.errMess}
                     postStaff={this.props.postStaff}
-                    departments={this.props.depart.departments} />
+                    departments={this.props.depart.departments}
+                />
             )
         }
 
@@ -68,12 +76,13 @@ class Main extends React.Component {
                                 departments={this.props.depart.departments}
                                 isLoading={this.props.depart.isLoading}
                                 departFailed={this.props.depart.errMess} />} />
+                            <Route path='/department/:departId' component={departOfStaffs} />
                             <Redirect to="/home" />
                         </Switch>
                     </CSSTransition>
                 </TransitionGroup>
                 <Footer />
-            </div>
+            </div >
         )
 
     }

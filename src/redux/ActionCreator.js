@@ -52,7 +52,11 @@ export const postStaff = (id, name, dOB, salaryScale, startDate, department, ann
                 error.response = response;
                 throw error;
             }
-        })
+        }, error => {
+            var errMess = new Error(error.message)
+            throw errMess
+        }
+        )
         .catch(error => {
             console.log('Post Staff', error.message);
             alert(`Your staff cant be posted Error:${error.message}`)
@@ -73,7 +77,7 @@ export const addStaffs = (staffs) => ({
 });
 
 //fetch department
-export const fetchDepartments = () => (dispatch) => {
+export const fetchDepartments = (id) => (dispatch) => {
     dispatch(departLoading(true))
 
     return fetch(baseUrl + 'departments')
