@@ -26,13 +26,16 @@ class Header extends React.Component {
                     <Collapse isOpen={this.state.isNavOpen} navbar>
                         <Nav className="mr-auto" navbar>
                             <NavItem>
-                                <NavLink className="nav-link" to="/home"><i className="fa fa-users"></i>Nhân Viên</NavLink>
+                                <NavLink className="nav-link" to="/home"><i className="fa fa-home"></i>Trang Chủ</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to="/departments"><i className="fa fa-id-card">Phòng Ban</i></NavLink>
+                                <NavLink className="nav-link" to="/home/staffs"><i className="fa fa-users"></i>Nhân Viên</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink className="nav-link" to="/salary"><i className="fa fa-money">Bảng Lương</i></NavLink>
+                                <NavLink className="nav-link" to="/home/departments"><i className="fa fa-id-card">Phòng Ban</i></NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink className="nav-link" to="/home/salary"><i className="fa fa-money">Bảng Lương</i></NavLink>
                             </NavItem>
                         </Nav>
                     </Collapse>

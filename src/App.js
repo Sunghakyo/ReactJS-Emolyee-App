@@ -1,6 +1,6 @@
 import { Component } from "react";
 import { BrowserRouter } from 'react-router-dom';
-import Main from './components/MainComponent';
+import Main from './components/common/MainComponent';
 import { Provider } from 'react-redux'
 import { ConfigureStore } from './redux/ConfigureStore';
 

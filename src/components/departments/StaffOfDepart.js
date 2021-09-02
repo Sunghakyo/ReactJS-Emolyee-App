@@ -28,13 +28,19 @@ export const StaffOfDepart = (props) => {
                 <Breadcrumb>
                     <BreadcrumbItem> <Link
                         className="text-reset text-decoration-none"
-                        to="/departments">
+                        to="/home">
+                        Trang Chủ
+                    </Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem> <Link
+                        className="text-reset text-decoration-none"
+                        to="/home/departments">
                         Phòng Ban
                     </Link>
                     </BreadcrumbItem>
                     <BreadcrumbItem><Link active
                         className="text-reset text-decoration-none"
-                        to={`/department/${props.depart?.id}`}>
+                        to={`/home/department/${props.depart?.id}`}>
                         {props.depart.name}
                     </Link>
                     </BreadcrumbItem>

@@ -1,15 +1,16 @@
 import React from 'react';
-import Home from './HomeComponent';
-import Header from "./HeaderComponent";
-import Footer from './FooterComponent';
-import Departments from './DepartmentsComponent';
-import SalarySheet from './SalarySheetComponent';
-import DetailStaff from './DetailStaffComponent';
-import { StaffOfDepart } from './StaffOfDepart';
+import ListStaffs from '../staffs/ListStaffs';
+import Header from "../Layout/HeaderComponent";
+import Footer from '../Layout/FooterComponent';
+import { HomePage } from '../Layout/HomeComponent'
+import Departments from '../departments/DepartmentsComponent';
+import SalarySheet from '../salary/SalarySheetComponent';
+import DetailStaff from '../staffs/DetailStaffComponent';
+import { StaffOfDepart } from '../departments/StaffOfDepart';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { fetchStaffs, fetchDepartments, fetchSalary, postStaff, editStaff, deleteStaff } from '../redux/ActionCreator';
+import { fetchStaffs, fetchDepartments, fetchSalary, postStaff, editStaff, deleteStaff } from '../../redux/ActionCreator';
 
 const mapStateToProps = (state) => ({
     staffs: state.staffs,
@@ -21,12 +22,8 @@ const mapDispatchToProps = (dispatch) => ({
     fetchStaffs: () => dispatch(fetchStaffs()),
     fetchDepart: () => dispatch(fetchDepartments()),
     fetchSalary: () => dispatch(fetchSalary()),
-    postStaff: (staffPosted) => {
-        dispatch(postStaff(staffPosted))
-    },
-    editStaff: (staffEdit) => {
-        dispatch(editStaff(staffEdit))
-    },
+    postStaff: (staffPosted) => { dispatch(postStaff(staffPosted)) },
+    editStaff: (staffEdit) => { dispatch(editStaff(staffEdit)) },
     deleteStaff: (id) => dispatch(deleteStaff(id))
 })
 
@@ -39,7 +36,7 @@ class Main extends React.Component {
     }
 
     render() {
-        // Component render Staff
+        // Component render detailStaff
         const staffId = ({ match }) => {
             const staff = this.props.staffs.staffs.filter(staff => staff.id == match.params.id)[0];
             const departName = this.props.depart.departments.find(depart => depart.id == staff.departmentId);
@@ -51,6 +48,7 @@ class Main extends React.Component {
             />
         }
 
+        //staff of depart
         const departOfStaffs = ({ match }) => {
             const depart = this.props.depart.departments.find(depart => depart.id === match.params.departId)
             return <StaffOfDepart
@@ -60,9 +58,9 @@ class Main extends React.Component {
         }
 
         // Component render list
-        const HomePage = () => {
+        const ListStaff = () => {
             return (
-                <Home
+                <ListStaffs
                     staffs={this.props.staffs.staffs}
                     staffsLoading={this.props.staffs.isLoading}
                     staffsFailed={this.props.staffs.errMess}
@@ -78,14 +76,15 @@ class Main extends React.Component {
                 <TransitionGroup>
                     <CSSTransition key={this.props.location.key} classNames="page" timeout={300}>
                         <Switch>
-                            <Route exact path="/home" component={HomePage} />
-                            <Route exact path="/home/:id" component={staffId} />
-                            <Route path="/salary" component={() => <SalarySheet staffs={this.props.salary.salary} />} />
-                            <Route path="/departments" component={() => <Departments
+                            <Route exact path="/home" component={() => <HomePage />} />
+                            <Route exact path="/home/staffs" component={ListStaff} />
+                            <Route exact path="/home/staffs/:id" component={staffId} />
+                            <Route exact path="/home/salary" component={() => <SalarySheet staffs={this.props.salary.salary} />} />
+                            <Route exact path="/home/departments" component={() => <Departments
                                 departments={this.props.depart.departments}
                                 isLoading={this.props.depart.isLoading}
                                 departFailed={this.props.depart.errMess} />} />
-                            <Route path='/department/:departId' component={departOfStaffs} />
+                            <Route exact path='/home/department/:departId' component={departOfStaffs} />
                             <Redirect to="/home" />
                         </Switch>
                     </CSSTransition>
@@ -93,7 +92,6 @@ class Main extends React.Component {
                 <Footer />
             </div >
         )
-
     }
 }
 

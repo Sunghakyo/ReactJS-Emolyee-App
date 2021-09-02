@@ -14,9 +14,10 @@ function Footer() {
                     <div className="col-12 col-md-3">
                         <h3 className="mb-3">Trang</h3>
                         <ul className="list-unstyled">
-                            <li ><Link className="text-reset text-decoration-none" to="/home">Nhân viên</Link> </li>
-                            <li ><Link className="text-reset text-decoration-none" to="/salary">Bảng lương</Link></li>
-                            <li ><Link className="text-reset text-decoration-none" to="/departments">Phòng ban</Link></li>
+                            <li ><Link className="text-reset text-decoration-none" to="/home">Trang Chủ</Link> </li>
+                            <li ><Link className="text-reset text-decoration-none" to="/home/staffs">Nhân viên</Link> </li>
+                            <li ><Link className="text-reset text-decoration-none" to="/home/salary">Bảng lương</Link></li>
+                            <li ><Link className="text-reset text-decoration-none" to="/home/departments">Phòng ban</Link></li>
                         </ul>
                     </div>
                     <div className="col-12 col-md-3 ">

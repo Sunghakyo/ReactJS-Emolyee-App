@@ -1,7 +1,7 @@
 import { Card, CardTitle, CardBody } from 'reactstrap';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import { Loading } from './LoadingComponent';
+import { Loading } from '../common/LoadingComponent';
 import { Fade, Stagger, FadeTransform } from 'react-animation-components';
 
 // component render thẻ phòng ban
@@ -23,7 +23,7 @@ function Department({ depart, departLoading, departFailed }) {
             return (
 
                 <div className="col-12 col-md-6 col-lg-4">
-                    <Link className="text-reset text-decoration-none" to={`/department/${department.id}`}>
+                    <Link className="text-reset text-decoration-none" to={`/home/department/${department.id}`}>
                         <FadeTransform in
                             transformProps={{
                                 exitTransform: 'scale(0.5) translateY(-50%)'
@@ -55,8 +55,12 @@ const DepartMents = (props) => {
             <div className="row">
                 <Breadcrumb className="mt-3 mb-3">
                     <BreadcrumbItem>
-                        <Link className="text-reset text-decoration-none" to="/departments" >Phòng Ban</Link>
+                        <Link className="text-reset text-decoration-none" to="/home" >Trang Chủ</Link>
                     </BreadcrumbItem>
+                    <BreadcrumbItem>
+                        <Link className="text-reset text-decoration-none" to="/home/departments" >Phòng Ban</Link>
+                    </BreadcrumbItem>
+
                 </Breadcrumb>
             </div>
             <div className="row">

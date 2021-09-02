@@ -4,6 +4,7 @@ import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Col, Label, Row, Modal, ModalBody, ModalHeader, Button } from 'reactstrap';
 import React, { useState } from 'react';
 
+//validate
 const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || val.length <= len;
 const minLength = (len) => val => !val || val.length >= len;
@@ -38,28 +39,29 @@ function RenderStaffs({ staff, departName, editStaff }) {
 }
 
 // Modal Edit staff
-function ModalEdit({ isOpen, setOpen, id, editStaff, staff }) {
-
+function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
   const datePartsdoB = staff.doB.split('/');
   const datePartsStartDate = staff.startDate.split('/');
   staff = { ...staff, ...{ doB: `${+datePartsdoB[2]}-${datePartsdoB[1]}-${datePartsdoB[0]}`, startDate: `${+datePartsStartDate[2]}-${datePartsStartDate[1]}-${datePartsStartDate[0]}` } }
 
   const handleSubmit = (value) => {
     setOpen(!isOpen);
-    const staffId = id
+
     const staffEdit = {
-      id: staffId,
+      id: staff.id,
       name: value.name,
-      dOB: value.dOb,
+      dOB: value.doB,
       startDate: value.startDate,
       department: value.departments,
       salaryScale: value.salaryScale,
       annualLeave: value.annualLeave,
       overTime: value.overTime
     }
-    editStaff(staffId, staffEdit)
+    console.log(staffEdit)
+    editStaff(staffEdit)
   }
 
+  //UI modal
   return (
     <Modal isOpen={isOpen} toggle={() => setOpen(!isOpen)} >
       <ModalHeader>Chỉnh sửa thông tin</ModalHeader>
@@ -158,7 +160,7 @@ function ModalEdit({ isOpen, setOpen, id, editStaff, staff }) {
               />
             </Col>
           </Row>
-          <Button type="submit" onClick={() => handleSubmit} color="primary"> Thêm </Button>
+          <Button type="submit" onClick={() => handleSubmit} color="primary"> Chỉnh sửa </Button>
         </LocalForm>
       </ModalBody>
     </Modal>
@@ -171,7 +173,8 @@ const DetailStaff = (props) => {
     <div className="container">
       <div className="row">
         <Breadcrumb>
-          <BreadcrumbItem> <Link to="/home">Nhân viên</Link> </BreadcrumbItem>
+          <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home">Trang Chủ</Link> </BreadcrumbItem>
+          <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home/staffs">Nhân viên</Link> </BreadcrumbItem>
           <BreadcrumbItem active>{props.staff.name} </BreadcrumbItem>
         </Breadcrumb>
       </div>

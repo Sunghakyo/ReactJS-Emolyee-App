@@ -75,10 +75,10 @@ class SalarySheet extends React.Component {
                 <div className="row">
                     <Breadcrumb className="mt-3 mb-3">
                         <BreadcrumbItem>
-                            <Link className="text-reset text-decoration-none" to="/home" >Nhân Viên</Link>
+                            <Link className="text-reset text-decoration-none" to="/home" >Trang chủ</Link>
                         </BreadcrumbItem>
                         <BreadcrumbItem>
-                            <Link className="text-reset text-decoration-none" to="/departments" >Bảng Lương</Link>
+                            <Link className="text-reset text-decoration-none" to="/home/salary" >Bảng Lương</Link>
                         </BreadcrumbItem>
                     </Breadcrumb>
                 </div>

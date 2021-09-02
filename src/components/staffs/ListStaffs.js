@@ -6,7 +6,7 @@ import {
 } from "reactstrap";
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from 'react-redux-form';
-import { Loading } from './LoadingComponent';
+import { Loading } from '../common/LoadingComponent';
 import { Fade, Stagger, FadeTransform } from 'react-animation-components'
 
 const required = (val) => val && val.length;
@@ -14,7 +14,7 @@ const maxLength = (len) => val => !val || val.length <= len;
 const minLength = (len) => val => !val || val.length >= len;
 
 //render card staffs
-const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
+const ListOfStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
     if (staffsLoading) {
         return (
             <Loading />
@@ -37,7 +37,7 @@ const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
                         }}>
                         <Stagger in>
                             <Fade in>
-                                <Link className="text-reset text-decoration-none" to={`/home/${staff.id}`}>
+                                <Link className="text-reset text-decoration-none" to={`/home/staffs/${staff.id}`}>
                                     <Card className="text-center ">
                                         <CardImg src="assets/images/alberto.png" />
                                         <CardBody>
@@ -55,7 +55,7 @@ const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
 }
 
 
-class Home extends React.Component {
+class ListStaffs extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -97,7 +97,6 @@ class Home extends React.Component {
             annualLeave: value.annualLeave,
             overTime: value.overTime
         }
-
         this.props.postStaff(staffPosted)
     }
 
@@ -107,7 +106,8 @@ class Home extends React.Component {
                 <div className="row  mt-3">
                     <div className="col-md-3">
                         <Breadcrumb >
-                            <BreadcrumbItem ><Link className="text-reset text-decoration-none" to="/home"><h3>Nhân Viên</h3></Link></BreadcrumbItem>
+                            <BreadcrumbItem ><Link className="text-reset text-decoration-none" to="/home">Trang Chủ</Link></BreadcrumbItem>
+                            <BreadcrumbItem ><Link className="text-reset text-decoration-none" to="/home/staffs">Nhân Viên</Link></BreadcrumbItem>
                         </Breadcrumb>
                     </div>
                     <div className="col-md-2">
@@ -228,7 +228,7 @@ class Home extends React.Component {
                     </div>
                 </div>
                 <div className="row">
-                    <ListStaffs
+                    <ListOfStaffs
                         staffs={this.state.staffs}
                         staffsLoading={this.props.staffsLoading}
                         staffsFailed={this.props.staffsFailed}
@@ -239,4 +239,4 @@ class Home extends React.Component {
     }
 }
 
-export default Home;
+export default ListStaffs;
