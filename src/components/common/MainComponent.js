@@ -10,7 +10,7 @@ import { StaffOfDepart } from '../departments/StaffOfDepart';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { fetchStaffs, fetchDepartments, fetchSalary, postStaff, editStaff, deleteStaff } from '../../redux/ActionCreator';
+import { fetchStaffs, fetchDepartments, fetchSalary } from '../../redux/ActionCreator';
 
 const mapStateToProps = (state) => ({
     staffs: state.staffs,
@@ -22,9 +22,6 @@ const mapDispatchToProps = (dispatch) => ({
     fetchStaffs: () => dispatch(fetchStaffs()),
     fetchDepart: () => dispatch(fetchDepartments()),
     fetchSalary: () => dispatch(fetchSalary()),
-    postStaff: (staffPosted) => { dispatch(postStaff(staffPosted)) },
-    editStaff: (staffEdit) => { dispatch(editStaff(staffEdit)) },
-    deleteStaff: (id) => dispatch(deleteStaff(id))
 })
 
 class Main extends React.Component {
@@ -43,8 +40,6 @@ class Main extends React.Component {
             return <DetailStaff
                 staff={staff}
                 departName={departName}
-                editStaff={this.props.editStaff}
-                deleteStaff={this.props.deleteStaff}
             />
         }
 
@@ -64,7 +59,6 @@ class Main extends React.Component {
                     staffs={this.props.staffs.staffs}
                     staffsLoading={this.props.staffs.isLoading}
                     staffsFailed={this.props.staffs.errMess}
-                    postStaff={this.props.postStaff}
                     departments={this.props.depart.departments}
                 />
             )

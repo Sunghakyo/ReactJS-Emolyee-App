@@ -31,9 +31,7 @@ export const postStaff = (staffPosted) => dispatch => {
         body: JSON.stringify(staffPosted),
         headers: {
             'Content-Type': 'application/json',
-            "Access-Control-Allow-Credentials": "true"
         },
-        credentials: 'include'
     })
         .then(response => {
             if (response) {
@@ -61,9 +59,7 @@ export const editStaff = (staffEdit) => (dispatch) => {
         body: JSON.stringify(staffEdit),
         headers: {
             'Content-Type': 'application/json',
-            "Access-Control-Allow-Credentials": "true"
         },
-        credentials: 'include'
     })
         .then(response => {
             if (response) {
@@ -86,13 +82,9 @@ export const editStaff = (staffEdit) => (dispatch) => {
 
 
 // delete staffs 
-
-export const deleteStaff = (id) => {
+export const deleteStaff = (id) => dispatch => {
     return fetch(baseUrl + `staffs/${id}`, {
         method: 'DELETE',
-        header: {
-            'content-type': 'application/json'
-        },
     })
         .then(response => {
             if (response.ok) {

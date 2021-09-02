@@ -8,6 +8,10 @@ import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from '../common/LoadingComponent';
 import { Fade, Stagger, FadeTransform } from 'react-animation-components'
+import * as moment from 'moment'
+import { postStaff } from '../../redux/ActionCreator';
+import { connect } from 'react-redux';
+
 
 const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || val.length <= len;
@@ -39,7 +43,7 @@ const ListOfStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
                             <Fade in>
                                 <Link className="text-reset text-decoration-none" to={`/home/staffs/${staff.id}`}>
                                     <Card className="text-center ">
-                                        <CardImg src="assets/images/alberto.png" />
+                                        <CardImg src="/assets/images/alberto.png" />
                                         <CardBody>
                                             <h3 >{staff.name}</h3>
                                         </CardBody>
@@ -85,17 +89,14 @@ class ListStaffs extends React.Component {
     // Post Staff
     handleSubmit(value) {
         this.toggle()
-        const department = this.props.departments.find(department => department.id === value.departments)
-
         const staffPosted = {
-            id: this.state.filter.length,
             name: value.name,
-            dOB: value.dOB,
-            department: department,
-            salaryScale: value.salaryScale,
-            startDate: value.startDate,
-            annualLeave: value.annualLeave,
-            overTime: value.overTime
+            doB: moment(value.dOB, "YYYY-MM-DD").format('MM/DD/YYYY'),
+            departmentId: value.departments,
+            salaryScale: +value.salaryScale,
+            startDate: moment(value.startDate, "YYYY-MM-DD").format('MM/DD/YYYY'),
+            annualLeave: +value.annualLeave,
+            overTime: +value.overTime
         }
         this.props.postStaff(staffPosted)
     }
@@ -140,6 +141,7 @@ class ListStaffs extends React.Component {
                                         <Label htmlFor="dOB" md="2">Ngày sinh</Label>
                                         <Col md={10} >
                                             <Control type="date" model=".dOB" name="dOB"
+
                                                 className="form-control"
                                                 validators={{
                                                     required
@@ -239,4 +241,10 @@ class ListStaffs extends React.Component {
     }
 }
 
-export default ListStaffs;
+
+
+const mapDispatchToProps = (dispatch) => ({
+    postStaff: (staffPosted) => { dispatch(postStaff(staffPosted)) },
+})
+
+export default connect(null, mapDispatchToProps)(ListStaffs)

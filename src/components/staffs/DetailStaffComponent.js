@@ -3,6 +3,10 @@ import { Link } from 'react-router-dom';
 import { LocalForm, Control, Errors } from 'react-redux-form';
 import { Col, Label, Row, Modal, ModalBody, ModalHeader, Button } from 'reactstrap';
 import React, { useState } from 'react';
+import { connect } from 'react-redux';
+import { editStaff, deleteStaff } from '../../redux/ActionCreator';
+import * as moment from 'moment';
+import { useHistory } from "react-router-dom";
 
 //validate
 const required = (val) => val && val.length;
@@ -10,10 +14,16 @@ const maxLength = (len) => val => !val || val.length <= len;
 const minLength = (len) => val => !val || val.length >= len;
 
 // Render Staff
-function RenderStaffs({ staff, departName, editStaff }) {
+function RenderStaffs({ staff, departName, editStaff, deleteStaff }) {
   const [isOpen, setOpen] = useState(false);
+  const history = useHistory();
 
-  return (<>
+  const onDeleteStaff = () => {
+    deleteStaff(staff.id);
+    history.push("/home/staffs");
+  }
+
+  return (staff ? <>
     <div className="col-12 col-md-2 col-lg-2">
       <img src="/assets/images/alberto.png" alt="avatar" />
     </div>
@@ -21,11 +31,20 @@ function RenderStaffs({ staff, departName, editStaff }) {
       <h2>Họ và tên: {staff.name}</h2>
       <p> Ngày sinh: {staff.doB} </p>
       <p>Ngày vào công ty:{staff.startDate}</p>
-      <p>Phòng ban:{departName.name} </p>
+      <p>Phòng ban:{departName?.name} </p>
       <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
       <p>Hệ số lương: {staff.salaryScale}</p>
       <p>Số ngày làm thêm: {staff.overTime}</p>
-      <button className="btn btn-primary mb-3" onClick={() => { setOpen(!isOpen); }}> chỉnh sửa</button>
+      <div className="container">
+        <div className="row mb-3">
+          <div className="col-3 ">
+            <button className="btn btn-primary " onClick={() => { setOpen(!isOpen); }}> chỉnh sửa</button>
+          </div>
+          <div className="col-3">
+            <button className="btn btn-danger " onClick={() => onDeleteStaff()}> Xóa </button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <ModalEdit
@@ -34,7 +53,7 @@ function RenderStaffs({ staff, departName, editStaff }) {
       staff={staff}
       editStaff={editStaff}
     />
-  </>
+  </> : null
   )
 }
 
@@ -50,15 +69,16 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
     const staffEdit = {
       id: staff.id,
       name: value.name,
-      dOB: value.doB,
-      startDate: value.startDate,
-      department: value.departments,
-      salaryScale: value.salaryScale,
-      annualLeave: value.annualLeave,
-      overTime: value.overTime
-    }
-    console.log(staffEdit)
-    editStaff(staffEdit)
+      doB: moment(value.doB, "YYYY-MM-DD").format('MM/DD/YYYY'),
+      startDate: moment(value.startDate, "YYYY-MM-DD").format('MM/DD/YYYY'),
+      departmentId: value.departmentId,
+      salaryScale: +value.salaryScale,
+      annualLeave: +value.annualLeave,
+      overTime: +value.overTime
+    };
+
+    editStaff(staffEdit);
+
   }
 
   //UI modal
@@ -126,7 +146,7 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
           <Row>
             <Label htmlFor="departments" md={2}>Phòng ban</Label>
             <Col md={10} >
-              <Control.select model="staff.departments" name="department" className="form-control" >
+              <Control.select model="staff.departmentId" name="department" className="form-control" >
                 <option value="Dept01">Sale</option>
                 <option value="Dept02">HR</option>
                 <option value="Dept03">Marketing</option>
@@ -175,7 +195,7 @@ const DetailStaff = (props) => {
         <Breadcrumb>
           <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home">Trang Chủ</Link> </BreadcrumbItem>
           <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home/staffs">Nhân viên</Link> </BreadcrumbItem>
-          <BreadcrumbItem active>{props.staff.name} </BreadcrumbItem>
+          <BreadcrumbItem active>{props.staff?.name} </BreadcrumbItem>
         </Breadcrumb>
       </div>
       <div className="row">
@@ -184,10 +204,16 @@ const DetailStaff = (props) => {
           staff={props.staff}
           departName={props.departName}
           editStaff={props.editStaff}
+          deleteStaff={props.deleteStaff}
         />
       </div>
     </div>
   )
 }
 
-export default DetailStaff;
+const mapDispatchToProps = (dispatch) => ({
+  editStaff: (staffEdit) => { dispatch(editStaff(staffEdit)) },
+  deleteStaff: (id) => { dispatch(deleteStaff(id)) }
+})
+
+export default connect(null, mapDispatchToProps)(DetailStaff)
