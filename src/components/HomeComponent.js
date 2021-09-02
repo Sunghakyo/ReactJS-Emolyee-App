@@ -1,5 +1,5 @@
 import { Card, CardImg, CardBody } from 'reactstrap';
-import React, { useState } from 'react';
+import React from 'react';
 import {
     Breadcrumb, BreadcrumbItem, Row, Col, Button,
     Modal, ModalBody, ModalHeader, Label,
@@ -15,8 +15,6 @@ const minLength = (len) => val => !val || val.length >= len;
 
 //render card staffs
 const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
-    const [isOpen, setOpen] = useState(false)
-
     if (staffsLoading) {
         return (
             <Loading />
@@ -50,6 +48,7 @@ const ListStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
                             </Fade>
                         </Stagger>
                     </FadeTransform>
+
                 </div>)
         })
     }
@@ -83,18 +82,23 @@ class Home extends React.Component {
 
     }
 
+    // Post Staff
     handleSubmit(value) {
         this.toggle()
         const department = this.props.departments.find(department => department.id === value.departments)
-        const id = this.state.filter.length,
-            name = value.name,
-            dOB = value.dOB,
-            salaryScale = value.salaryScale,
-            startDate = value.startDate,
-            annualLeave = value.annualLeave,
-            overTime = value.overTime;
 
-        this.props.postStaff(id, name, dOB, salaryScale, startDate, department, annualLeave, overTime)
+        const staffPosted = {
+            id: this.state.filter.length,
+            name: value.name,
+            dOB: value.dOB,
+            department: department,
+            salaryScale: value.salaryScale,
+            startDate: value.startDate,
+            annualLeave: value.annualLeave,
+            overTime: value.overTime
+        }
+
+        this.props.postStaff(staffPosted)
     }
 
     render() {
@@ -109,7 +113,7 @@ class Home extends React.Component {
                     <div className="col-md-2">
                         <Modal isOpen={this.state.isOpen} toggle={this.toggle} >
                             <ModalHeader toggle={this.toggle}>Thêm Nhân Viên</ModalHeader>
-                            <ModalBody ody>
+                            <ModalBody >
                                 <LocalForm onSubmit={values => this.handleSubmit(values)}>
                                     <Row className="form-group">
                                         <Label htmlFor="name" md="2">Tên</Label>

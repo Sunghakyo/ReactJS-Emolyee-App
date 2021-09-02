@@ -26,25 +26,16 @@ export const fetchStaffs = () => (dispatch) => {
 };
 
 // post staffs
-export const postStaff = (id, name, dOB, salaryScale, startDate, department, annualLeave, overTime) => (dispatch) => {
-    const newStaff = {
-        id: id,
-        name: name,
-        dOB: dOB,
-        salaryScale: salaryScale,
-        startDate: startDate,
-        department: department,
-        annualLeave: annualLeave,
-        overTime: overTime
-    }
+export const postStaff = (staffPosted) => dispatch => {
 
     return fetch(baseUrl + 'staffs', {
         method: 'POST',
-        body: JSON.stringify(newStaff),
+        body: JSON.stringify(staffPosted),
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Credentials": "true"
         },
-        credentials: 'same-origin'
+        credentials: 'include'
     })
         .then(response => {
             if (response) {
@@ -62,6 +53,81 @@ export const postStaff = (id, name, dOB, salaryScale, startDate, department, ann
             alert(`Your staff cant be posted Error:${error.message}`)
         })
 }
+
+//edit staffs 
+
+export const editStaff = (staffEdit) => (dispatch) => {
+    const staff = {
+        id: staffEdit.id,
+        name: staffEdit.name,
+        dOB: staffEdit.dOB,
+        salaryScale: staffEdit.salaryScale,
+        startDate: staffEdit.startDate,
+        department: staffEdit.department,
+        annualLeave: staffEdit.annualLeave,
+        overTime: staffEdit.overTime
+    }
+
+    return fetch(baseUrl + 'staffs', {
+        method: 'PATCH',
+        body: JSON.stringify(staff),
+        headers: {
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Credentials": "true"
+        },
+        credentials: 'include'
+    })
+        .then(response => {
+            if (response) {
+                var error = new Error(`${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        }, error => {
+            var errMess = new Error(error.message)
+            throw errMess
+        }
+        )
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => {
+            console.log('Post Staff', error.message);
+            alert(`Your staff cant be posted Error:${error.message}`)
+        })
+}
+
+
+// delete staffs 
+
+export const deleteStaff = (id) => {
+    return fetch(baseUrl + `staffs/${id}`, {
+        method: 'DELETE',
+        header: {
+            'content-type': 'application/json'
+        },
+    })
+        .then(response => {
+            if (response.ok) {
+                return response;
+            }
+            else {
+                var error = new Error(`Error${response.status} `);
+                error.response = response;
+                throw error;
+            }
+        },
+            error => {
+                var errMess = new Error(error.message);
+                throw errMess;
+            })
+        .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(error => {
+            console.log(error.message)
+            alert(error.message)
+        })
+}
+
 export const staffsLoading = () => ({
     type: ActionTypes.STAFFS_LOADING,
 });

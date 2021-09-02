@@ -9,7 +9,7 @@ import { StaffOfDepart } from './StaffOfDepart';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { fetchStaffs, fetchDepartments, fetchSalary, postStaff } from '../redux/ActionCreator';
+import { fetchStaffs, fetchDepartments, fetchSalary, postStaff, editStaff, deleteStaff } from '../redux/ActionCreator';
 
 const mapStateToProps = (state) => ({
     staffs: state.staffs,
@@ -21,9 +21,13 @@ const mapDispatchToProps = (dispatch) => ({
     fetchStaffs: () => dispatch(fetchStaffs()),
     fetchDepart: () => dispatch(fetchDepartments()),
     fetchSalary: () => dispatch(fetchSalary()),
-    postStaff: (id, name, dOB, salaryScale, startDate, department, annualLeave, overTime) => {
-        dispatch(postStaff(id, name, dOB, salaryScale, startDate, department, annualLeave, overTime))
+    postStaff: (staffPosted) => {
+        dispatch(postStaff(staffPosted))
     },
+    editStaff: (staffEdit) => {
+        dispatch(editStaff(staffEdit))
+    },
+    deleteStaff: (id) => dispatch(deleteStaff(id))
 })
 
 class Main extends React.Component {
@@ -37,15 +41,20 @@ class Main extends React.Component {
     render() {
         // Component render Staff
         const staffId = ({ match }) => {
+            const staff = this.props.staffs.staffs.filter(staff => staff.id == match.params.id)[0];
+            const departName = this.props.depart.departments.find(depart => depart.id == staff.departmentId);
             return <DetailStaff
-                staff={this.props.staffs.staffs.filter((staff) => staff.id == match.params.id)[0]}
+                staff={staff}
+                departName={departName}
+                editStaff={this.props.editStaff}
+                deleteStaff={this.props.deleteStaff}
             />
         }
 
         const departOfStaffs = ({ match }) => {
             const depart = this.props.depart.departments.find(depart => depart.id === match.params.departId)
             return <StaffOfDepart
-                staffs={this.props.staffs.staffs.filter(staff => staff.departmentId == match.params.departId)}
+                staffs={this.props.staffs.staffs.filter(staff => staff.departmentId === match.params.departId)}
                 depart={depart}
             />
         }

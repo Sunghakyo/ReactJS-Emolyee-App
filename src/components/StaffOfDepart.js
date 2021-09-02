@@ -22,13 +22,22 @@ function RenderStaffs({ staffs, depart }) {
 }
 
 export const StaffOfDepart = (props) => {
-    console.log('StaffOfDepart', props)
     return (
         <div className="container">
             <div className="row">
                 <Breadcrumb>
-                    <BreadcrumbItem> <Link to="/departments">Phòng Ban</Link> </BreadcrumbItem>
-                    <BreadcrumbItem><Link to={`/department/${props.depart?.id}`}>{props.depart?.name}</Link> </BreadcrumbItem>
+                    <BreadcrumbItem> <Link
+                        className="text-reset text-decoration-none"
+                        to="/departments">
+                        Phòng Ban
+                    </Link>
+                    </BreadcrumbItem>
+                    <BreadcrumbItem><Link active
+                        className="text-reset text-decoration-none"
+                        to={`/department/${props.depart?.id}`}>
+                        {props.depart.name}
+                    </Link>
+                    </BreadcrumbItem>
                 </Breadcrumb>
             </div>
             <div className="row">
