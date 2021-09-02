@@ -9,9 +9,8 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from '../common/LoadingComponent';
 import { Fade, Stagger, FadeTransform } from 'react-animation-components'
 import * as moment from 'moment'
-import { postStaff } from '../../redux/ActionCreator';
+import { postStaff, fetchStaffs } from '../../redux/ActionCreator';
 import { connect } from 'react-redux';
-
 
 const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || val.length <= len;
@@ -98,8 +97,10 @@ class ListStaffs extends React.Component {
             annualLeave: +value.annualLeave,
             overTime: +value.overTime
         }
-        this.props.postStaff(staffPosted)
+        this.props.postStaff(staffPosted);
+        this.props.fetchStaffs();
     }
+
 
     render() {
         return (
@@ -245,6 +246,7 @@ class ListStaffs extends React.Component {
 
 const mapDispatchToProps = (dispatch) => ({
     postStaff: (staffPosted) => { dispatch(postStaff(staffPosted)) },
+    fetchStaffs: () => dispatch(fetchStaffs())
 })
 
 export default connect(null, mapDispatchToProps)(ListStaffs)

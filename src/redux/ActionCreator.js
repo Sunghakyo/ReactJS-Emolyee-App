@@ -34,6 +34,9 @@ export const postStaff = (staffPosted) => dispatch => {
         },
     })
         .then(response => {
+            if (response.ok) {
+                return response;
+            }
             if (response) {
                 var error = new Error(`${response.status}: ${response.statusText}`);
                 error.response = response;
@@ -114,6 +117,7 @@ export const staffsFailed = (errMess) => ({
     type: ActionTypes.STAFFS_FAILED,
     payload: errMess
 });
+
 
 export const addStaffs = (staffs) => ({
     type: ActionTypes.ADD_STAFFS,
