@@ -1,2 +1,0 @@
-link Github: https://github.com/phongtran11/git-test
-branch: ASM4

@@ -35,8 +35,8 @@ class Main extends React.Component {
     render() {
         // Component render detailStaff
         const staffId = ({ match }) => {
-            const staff = this.props.staffs.staffs.filter(staff => staff.id == match.params.id)[0];
-            const departName = this.props.depart.departments.find(depart => depart.id == staff.departmentId);
+            const staff = this.props.staffs.staffs.filter(staff => staff.id === parseInt(match.params.id, 10))[0];
+            const departName = this.props.depart.departments.find(depart => depart.id === staff.departmentId);
             return <DetailStaff
                 staff={staff}
                 departName={departName}

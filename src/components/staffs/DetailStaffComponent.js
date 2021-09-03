@@ -27,7 +27,7 @@ function RenderStaffs({ staff, departName, editStaff, deleteStaff }) {
     <div className="col-12 col-md-2 col-lg-2">
       <img src="/assets/images/alberto.png" alt="avatar" />
     </div>
-    <div className=" col-12 col-md-10 col-lg-10 ">
+    <div key={staff.id} className=" col-12 col-md-10 col-lg-10 ">
       <h2>Họ và tên: {staff.name}</h2>
       <p> Ngày sinh: {staff.doB} </p>
       <p>Ngày vào công ty:{staff.startDate}</p>
@@ -146,13 +146,13 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
           <Row>
             <Label htmlFor="departments" md={2}>Phòng ban</Label>
             <Col md={10} >
-              <Control.select model="staff.departmentId" name="department" className="form-control" >
+              <Control.Select model="staff.departmentId" name="department" className="form-control" >
                 <option value="Dept01">Sale</option>
                 <option value="Dept02">HR</option>
                 <option value="Dept03">Marketing</option>
                 <option value="Dept04">IT</option>
                 <option value="Dept05">Finance</option>
-              </Control.select >
+              </Control.Select >
             </Col>
           </Row>
           <Row>
