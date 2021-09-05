@@ -1,5 +1,5 @@
 import { Card, CardImg, CardBody } from 'reactstrap';
-import React from 'react';
+import React, { Component } from 'react';
 import {
     Breadcrumb, BreadcrumbItem, Row, Col, Button,
     Modal, ModalBody, ModalHeader, Label,
@@ -15,6 +15,7 @@ import dateformat from 'dateformat';
 const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || val.length <= len;
 const minLength = (len) => val => !val || val.length >= len;
+const isEvenNum = val => !val || val % 1 === 0;
 
 //render card staffs
 const ListOfStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
@@ -58,23 +59,37 @@ const ListOfStaffs = ({ staffs, staffsLoading, staffsFailed }) => {
 }
 
 
-class ListStaffs extends React.Component {
+class ListStaffs extends Component {
     constructor(props) {
         super(props);
         this.state = {
             staffs: this.props.staffs,
             isOpen: false,
-            filter: this.props.staffs
+            filter: this.props.staffs,
+            name: undefined,
+            dob: undefined,
+            startDate: undefined,
+            salary: '',
+            annual: '',
+            overTime: '',
+
         }
         this.toggle = this.toggle.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleFind = this.handleFind.bind(this);
-
+        this.onChangeInput = this.onChangeInput.bind(this);
     }
 
     // modal box
     toggle() {
         this.setState({ isOpen: !this.state.isOpen })
+    }
+
+    onChangeInput = (e) => {
+        const name = e.target.name
+        this.setState({
+            [name]: e.target.value
+        })
     }
 
     //search nhân viên
@@ -87,6 +102,7 @@ class ListStaffs extends React.Component {
 
     // Post Staff
     handleSubmit(value) {
+
         this.toggle()
         const staffPosted = {
             name: value.name,
@@ -116,33 +132,32 @@ class ListStaffs extends React.Component {
                         <Modal isOpen={this.state.isOpen} toggle={this.toggle} >
                             <ModalHeader toggle={this.toggle}>Thêm Nhân Viên</ModalHeader>
                             <ModalBody >
-                                <LocalForm onSubmit={values => this.handleSubmit(values)}>
-                                    <Row className="form-group">
+                                <LocalForm onSubmit={values => this.handleSubmit(values)} initialState={{}} >
+                                    <Row className="mb-3">
                                         <Label htmlFor="name" md="2">Tên</Label>
                                         <Col md={10} >
-                                            <Control model=".name"
+                                            <Control.text model=".name" name="name"
                                                 className="form-control"
                                                 validators={{
                                                     required, maxLength: maxLength(30), minLength: minLength(3)
                                                 }}
-                                                onSubmit={(value) => this.getValue(value)}
                                             />
                                             <Errors
-                                                className='text-danger'
+                                                className="text-danger"
                                                 model=".name"
                                                 messages={{
                                                     required: "Yêu cầu nhập",
                                                     maxLength: "yêu cầu nhập tối đa 30 ký tự ",
                                                     minLength: "yêu cầu nhập tối thiểu 3 ký tự"
                                                 }}
+                                                show="touched"
                                             />
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="form-group">
                                         <Label htmlFor="dOB" md="2">Ngày sinh</Label>
                                         <Col md={10} >
-                                            <Control type="date" model=".dOB" name="dOB"
-
+                                            <Control.text type="date" model=".dOB" name="dOB"
                                                 className="form-control"
                                                 validators={{
                                                     required
@@ -154,13 +169,15 @@ class ListStaffs extends React.Component {
                                                 messages={{
                                                     required: "Yêu cầu nhập"
                                                 }}
+                                                show="touched"
+
                                             />
                                         </Col>
                                     </Row>
-                                    <Row>
+                                    <Row className="form-group">
                                         <Label htmlFor="startDate" md="2">Ngày vào công ty</Label>
                                         <Col md={10} >
-                                            <Control type="date" model=".startDate" name="startDate"
+                                            <Control.text type="date" model=".startDate" name="startDate"
                                                 className="form-control"
                                                 validators={{
                                                     required
@@ -172,46 +189,97 @@ class ListStaffs extends React.Component {
                                                 messages={{
                                                     required: "Yêu cầu nhập"
                                                 }}
+                                                show="touched"
+
                                             />
                                         </Col>
                                     </Row>
                                     <Row>
                                         <Label htmlFor="departments" md={2}>Phòng ban</Label>
                                         <Col md={10} >
-                                            <select model=".departments" name="department" className="form-control" >
+                                            <Control.select model=".departments" name="department" className="form-control" >
                                                 <option value="Dept01">Sale</option>
                                                 <option value="Dept02">HR</option>
                                                 <option value="Dept03">Marketing</option>
                                                 <option value="Dept04">IT</option>
                                                 <option value="Dept05">Finance</option>
-                                            </select >
+                                            </Control.select >
                                         </Col>
                                     </Row>
+
                                     <Row>
                                         <Label htmlFor="salaryScale" md="2">Hệ số lương</Label>
                                         <Col md={10} >
-                                            <Control type="number" model=".salaryScale" name="salaryScale"
+                                            <Control.text type="number" model=".salaryScale" name="salaryScale"
+                                                validators={{
+                                                    required,
+                                                    isEvenNum
+                                                }}
                                                 className="form-control"
                                             />
+                                            <Errors
+                                                className="text-danger"
+                                                model=".salaryScale"
+                                                messages={{
+                                                    required: "Yêu cầu nhập",
+                                                    isEvenNum: 'Yêu cầu nhập giá trị nguyên'
+                                                }}
+                                                show="touched"
+
+                                            />
                                         </Col>
+
                                     </Row>
+
                                     <Row>
                                         <Label htmlFor="annualLeave" md="2">Số ngày nghỉ </Label>
                                         <Col md={10} >
-                                            <Control type="number" model=".annualLeave" name="annualLeave"
+                                            <Control.text type="number" model=".annualLeave" name="annualLeave"
+                                                validators={{
+                                                    required,
+                                                    isEvenNum
+                                                }}
                                                 className="form-control"
                                             />
+                                            <Errors
+                                                className="text-danger"
+                                                model=".annualLeave"
+                                                messages={{
+                                                    required: "Yêu cầu nhập",
+                                                    isEvenNum: 'Yêu cầu nhập giá trị nguyên'
+                                                }}
+                                                show="touched"
+
+                                            />
                                         </Col>
+
                                     </Row>
+
                                     <Row>
                                         <Label htmlFor="overTime" md="2">Số ngày làm thêm</Label>
                                         <Col md={10} >
-                                            <Control type="number" model=".overTime" name="overTime"
+                                            <Control.text
+                                                validators={{
+                                                    required,
+                                                    isEvenNum
+                                                }}
+                                                type="number" model=".overTime" name="overTime"
                                                 className="form-control"
                                             />
+                                            <Errors
+                                                className="text-danger"
+                                                model=".overTime"
+                                                messages={{
+                                                    required: "Yêu cầu nhập",
+                                                    isEvenNum: 'Yêu cầu nhập giá trị nguyên'
+                                                }}
+                                                show="touched"
+
+                                            />
                                         </Col>
+
                                     </Row>
-                                    <Button type="submit" onClick={this.toggle} color="primary"> Thêm </Button>
+                                    <Button type="submit" color="primary"> Thêm </Button>
                                 </LocalForm>
                             </ModalBody>
                         </Modal>
@@ -242,11 +310,13 @@ class ListStaffs extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => ({
 
+})
 
 const mapDispatchToProps = (dispatch) => ({
     postStaff: (staffPosted) => { dispatch(postStaff(staffPosted)) },
     fetchStaffs: () => dispatch(fetchStaffs())
 })
 
-export default connect(null, mapDispatchToProps)(ListStaffs)
+export default connect(mapStateToProps, mapDispatchToProps)(ListStaffs)

@@ -49,6 +49,8 @@ export const postStaff = (staffPosted) => dispatch => {
             throw errMess
         }
         )
+        .then(response => response.json())
+        .then(response => dispatch(updateStaffs(response)))
         .catch(error => {
             console.log('Post Staff', error.message);
             alert(`Your staff cant be posted Error:${error.message}`)

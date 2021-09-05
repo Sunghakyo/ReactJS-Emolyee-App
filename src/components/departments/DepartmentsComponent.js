@@ -24,7 +24,7 @@ function Department({ depart, departLoading, departFailed }) {
         return depart.map(department => {
             return (
 
-                <div className="col-12 col-md-6 col-lg-4">
+                <div key={department.id} className="col-12 col-md-6 col-lg-4">
                     <Link className="text-reset text-decoration-none" to={`/home/department/${department.id}`}>
                         <FadeTransform in
                             transformProps={{
