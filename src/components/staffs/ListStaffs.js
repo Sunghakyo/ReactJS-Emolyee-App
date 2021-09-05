@@ -7,10 +7,10 @@ import {
 import { Link } from "react-router-dom";
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Loading } from '../common/LoadingComponent';
-import { Fade, Stagger, FadeTransform } from 'react-animation-components'
-import * as moment from 'moment'
+import { Fade, Stagger, FadeTransform } from 'react-animation-components';
 import { postStaff, fetchStaffs } from '../../redux/ActionCreator';
 import { connect } from 'react-redux';
+import dateformat from 'dateformat';
 
 const required = (val) => val && val.length;
 const maxLength = (len) => val => !val || val.length <= len;
@@ -90,10 +90,10 @@ class ListStaffs extends React.Component {
         this.toggle()
         const staffPosted = {
             name: value.name,
-            doB: moment(value.dOB, "YYYY-MM-DD").format('MM/DD/YYYY'),
+            doB: dateformat(value.doB, "dd/mm/yyyy"),
             departmentId: value.departments,
             salaryScale: +value.salaryScale,
-            startDate: moment(value.startDate, "YYYY-MM-DD").format('MM/DD/YYYY'),
+            startDate: dateformat(value.startDate, "dd/mm/yyyy"),
             annualLeave: +value.annualLeave,
             overTime: +value.overTime
         }
@@ -178,13 +178,13 @@ class ListStaffs extends React.Component {
                                     <Row>
                                         <Label htmlFor="departments" md={2}>Phòng ban</Label>
                                         <Col md={10} >
-                                            <Control.select model=".departments" name="department" className="form-control" >
+                                            <select model=".departments" name="department" className="form-control" >
                                                 <option value="Dept01">Sale</option>
                                                 <option value="Dept02">HR</option>
                                                 <option value="Dept03">Marketing</option>
                                                 <option value="Dept04">IT</option>
                                                 <option value="Dept05">Finance</option>
-                                            </Control.select >
+                                            </select >
                                         </Col>
                                     </Row>
                                     <Row>

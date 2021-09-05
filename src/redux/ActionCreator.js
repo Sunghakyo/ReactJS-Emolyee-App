@@ -8,7 +8,7 @@ export const fetchStaffs = () => (dispatch) => {
     return fetch(baseUrl + 'staffs')
         .then(response => {
             if (response.ok) {
-                return response
+                return response;
             } else {
                 var error = new Error(`Error${response.status}: ${response.statusText}`);
                 error.response = response;
@@ -18,8 +18,10 @@ export const fetchStaffs = () => (dispatch) => {
             var errMess = new Error(error.message);
             throw errMess;
         })
-        .then(response => response.json())
-        .then(staffs => dispatch(addStaffs(staffs)))
+        .then(response => {
+            return response.json();
+        })
+        .then(response => dispatch(updateStaffs(response)))
         .catch(error => dispatch(staffsFailed(error.message)))
 };
 
@@ -65,7 +67,9 @@ export const editStaff = (staffEdit) => (dispatch) => {
         },
     })
         .then(response => {
-            if (response) {
+            if (response.ok) {
+                return response;
+            } else {
                 var error = new Error(`${response.status}: ${response.statusText}`);
                 error.response = response;
                 throw error;
@@ -76,7 +80,7 @@ export const editStaff = (staffEdit) => (dispatch) => {
         }
         )
         .then(response => response.json())
-        .then(data => console.log(data))
+        .then(response => dispatch(updateStaffs(response)))
         .catch(error => {
             console.log('Post Staff', error.message);
             alert(`Your staff cant be edit Error:${error.message}`)
@@ -101,8 +105,13 @@ export const deleteStaff = (id) => dispatch => {
             var errMess = new Error(error.message);
             throw errMess;
         })
-        .then(response => response.json())
-        .then(data => console.log(data))
+        .then(response => {
+            console.log(response);
+            var json = response.json();
+            console.log(json);
+            return json;
+        })
+        .then(response => dispatch(updateStaffs(response)))
         .catch(error => {
             console.log(error.message)
             alert(error.message)
@@ -119,12 +128,25 @@ export const staffsFailed = (errMess) => ({
 });
 
 
-export const addStaffs = (staffs) => ({
-    type: ActionTypes.ADD_STAFFS,
+export const updateStaffs = (staffs) => ({
+    type: ActionTypes.UPDATE_STAFFS,
     payload: staffs
 });
 
 //fetch department
+export const departLoading = () => ({
+    type: ActionTypes.DEPARTMENTS_LOADING
+});
+
+export const departFailed = (errMess) => ({
+    type: ActionTypes.DEPARTMENTS_FAILED,
+    payload: errMess
+})
+
+export const addDepart = (depart) => ({
+    type: ActionTypes.ADD_DEPARTMENTS,
+    payload: depart
+});
 export const fetchDepartments = (id) => (dispatch) => {
     dispatch(departLoading(true))
 
@@ -140,27 +162,14 @@ export const fetchDepartments = (id) => (dispatch) => {
         }, error => {
             var errMess = new Error(error.message);
             throw errMess;
-        }
-        )
-
-        .then(response => response.json())
+        })
+        .then(response => {
+            return response.json();
+        })
         .then(depart => dispatch(addDepart(depart)))
         .catch(error => dispatch(departFailed(error.message)))
 }
 
-export const departLoading = () => ({
-    type: ActionTypes.DEPARTMENTS_LOADING
-});
-
-export const departFailed = (errMess) => ({
-    type: ActionTypes.DEPARTMENTS_FAILED,
-    payload: errMess
-})
-
-export const addDepart = (depart) => ({
-    type: ActionTypes.ADD_DEPARTMENTS,
-    payload: depart
-});
 
 //fetch salary
 export const fetchSalary = () => dispatch => {

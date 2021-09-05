@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 function RenderStaffs({ staffs, depart }) {
     return staffs.map(staff => {
-        return (<>
+        return (<div>
             <div className="col-12 col-md-2 col-lg-2">
                 <img src="/assets/images/alberto.png" alt="avatar" />
             </div>
@@ -16,7 +16,7 @@ function RenderStaffs({ staffs, depart }) {
                 <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
                 <p>Số ngày làm thêm: {staff.overTime}</p>
             </div>
-        </>
+        </div>
         )
     })
 }
@@ -40,7 +40,7 @@ export const StaffOfDepart = (props) => {
                     </BreadcrumbItem>
                     <BreadcrumbItem><Link active
                         className="text-reset text-decoration-none"
-                        to={`/home/department/${props.depart?.id}`}>
+                        to={`/home/department/${props.depart.id}`}>
                         {props.depart.name}
                     </Link>
                     </BreadcrumbItem>
