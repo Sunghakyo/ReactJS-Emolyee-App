@@ -62,14 +62,11 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
   staff.startDate = dateformat(staff.startDate, "yyyy-mm-dd");
   const handleSubmit = (value) => {
     setOpen(!isOpen);
-    const dOb = new Date(value.dOb);
-    const startDate = new Date(value.startDate);
-
     const staffEdit = {
       id: staff.id,
       name: value.name,
-      doB: dOb,
-      startDate: startDate,
+      doB: value.doB,
+      startDate: value.startDate,
       departmentId: value.departmentId,
       salaryScale: +value.salaryScale,
       annualLeave: +value.annualLeave,
