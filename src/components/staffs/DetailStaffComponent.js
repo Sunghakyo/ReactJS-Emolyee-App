@@ -5,7 +5,7 @@ import { Col, Label, Row, Modal, ModalBody, ModalHeader, Button } from 'reactstr
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 import { editStaff, deleteStaff } from '../../redux/ActionCreator';
-import * as moment from 'moment';
+import dateformat from 'dateformat';
 import { useHistory } from "react-router-dom";
 
 //validate
@@ -22,16 +22,15 @@ function RenderStaffs({ staff, departName, editStaff, deleteStaff }) {
     deleteStaff(staff.id);
     history.push("/home/staffs");
   }
-
-  return (staff ? <>
+  return (staff ? <div>
     <div className="col-12 col-md-2 col-lg-2">
       <img src="/assets/images/alberto.png" alt="avatar" />
     </div>
     <div key={staff.id} className=" col-12 col-md-10 col-lg-10 ">
       <h2>Họ và tên: {staff.name}</h2>
-      <p> Ngày sinh: {staff.doB} </p>
-      <p>Ngày vào công ty:{staff.startDate}</p>
-      <p>Phòng ban:{departName?.name} </p>
+      <p> Ngày sinh: {dateformat(staff.doB, "dd/mm/yyyy")} </p>
+      <p>Ngày vào công ty:{dateformat(staff.startDate, "dd/mm/yyyy")}</p>
+      <p>Phòng ban:{departName.name} </p>
       <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
       <p>Hệ số lương: {staff.salaryScale}</p>
       <p>Số ngày làm thêm: {staff.overTime}</p>
@@ -53,30 +52,29 @@ function RenderStaffs({ staff, departName, editStaff, deleteStaff }) {
       staff={staff}
       editStaff={editStaff}
     />
-  </> : null
+  </div> : null
   )
 }
 
 // Modal Edit staff
 function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
-  const datePartsdoB = staff.doB.split('/');
-  const datePartsStartDate = staff.startDate.split('/');
-  staff = { ...staff, ...{ doB: `${+datePartsdoB[2]}-${datePartsdoB[1]}-${datePartsdoB[0]}`, startDate: `${+datePartsStartDate[2]}-${datePartsStartDate[1]}-${datePartsStartDate[0]}` } }
-
+  staff.doB = dateformat(staff.doB, "yyyy-mm-dd");
+  staff.startDate = dateformat(staff.startDate, "yyyy-mm-dd");
   const handleSubmit = (value) => {
     setOpen(!isOpen);
+    const dOb = new Date(value.dOb);
+    const startDate = new Date(value.startDate);
 
     const staffEdit = {
       id: staff.id,
       name: value.name,
-      doB: moment(value.doB, "YYYY-MM-DD").format('MM/DD/YYYY'),
-      startDate: moment(value.startDate, "YYYY-MM-DD").format('MM/DD/YYYY'),
+      doB: dOb,
+      startDate: startDate,
       departmentId: value.departmentId,
       salaryScale: +value.salaryScale,
       annualLeave: +value.annualLeave,
       overTime: +value.overTime
     };
-
     editStaff(staffEdit);
 
   }
@@ -146,13 +144,13 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
           <Row>
             <Label htmlFor="departments" md={2}>Phòng ban</Label>
             <Col md={10} >
-              <Control.Select model="staff.departmentId" name="department" className="form-control" >
+              <select model="staff.departmentId" className="form-control" >
                 <option value="Dept01">Sale</option>
                 <option value="Dept02">HR</option>
                 <option value="Dept03">Marketing</option>
                 <option value="Dept04">IT</option>
                 <option value="Dept05">Finance</option>
-              </Control.Select >
+              </select >
             </Col>
           </Row>
           <Row>
@@ -180,7 +178,7 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
               />
             </Col>
           </Row>
-          <Button type="submit" onClick={() => handleSubmit} color="primary"> Chỉnh sửa </Button>
+          <Button type="submit" color="primary"> Chỉnh sửa </Button>
         </LocalForm>
       </ModalBody>
     </Modal>
@@ -189,26 +187,30 @@ function ModalEdit({ isOpen, setOpen, editStaff, staff }) {
 
 // Container Staff Detail
 const DetailStaff = (props) => {
-  return (
-    <div className="container">
-      <div className="row">
-        <Breadcrumb>
-          <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home">Trang Chủ</Link> </BreadcrumbItem>
-          <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home/staffs">Nhân viên</Link> </BreadcrumbItem>
-          <BreadcrumbItem active>{props.staff?.name} </BreadcrumbItem>
-        </Breadcrumb>
+  if(props.staff){
+    return (
+      <div className="container">
+        <div className="row">
+          <Breadcrumb>
+            <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home">Trang Chủ</Link> </BreadcrumbItem>
+            <BreadcrumbItem> <Link className="text-reset text-decoration-none" to="/home/staffs">Nhân viên</Link> </BreadcrumbItem>
+            <BreadcrumbItem active>{props.staff.name} </BreadcrumbItem>
+          </Breadcrumb>
+        </div>
+        <div className="row">
+          {/* component render  staff */}
+          <RenderStaffs
+            staff={props.staff}
+            departName={props.departName}
+            editStaff={props.editStaff}
+            deleteStaff={props.deleteStaff}
+          />
+        </div>
       </div>
-      <div className="row">
-        {/* component render  staff */}
-        <RenderStaffs
-          staff={props.staff}
-          departName={props.departName}
-          editStaff={props.editStaff}
-          deleteStaff={props.deleteStaff}
-        />
-      </div>
-    </div>
-  )
+    )
+  }else{
+    return <div>staff not found</div>
+  }
 }
 
 const mapDispatchToProps = (dispatch) => ({

@@ -27,20 +27,26 @@ const mapDispatchToProps = (dispatch) => ({
 class Main extends React.Component {
 
     componentDidMount() {
-        this.props.fetchStaffs()
-        this.props.fetchDepart()
-        this.props.fetchSalary()
+        this.props.fetchStaffs();
+        this.props.fetchDepart();
+        this.props.fetchSalary();
     }
 
     render() {
         // Component render detailStaff
         const staffId = ({ match }) => {
             const staff = this.props.staffs.staffs.filter(staff => staff.id === parseInt(match.params.id, 10))[0];
-            const departName = this.props.depart.departments.find(depart => depart.id === staff.departmentId);
-            return <DetailStaff
-                staff={staff}
-                departName={departName}
-            />
+            let departName;
+            if(staff){
+                departName = this.props.depart.departments.find(depart => depart.id === staff.departmentId);
+            }
+            if(departName){
+                return <DetailStaff
+                    staff={staff}
+                    departName={departName}
+                />
+            }
+            return <div>staff departments not found</div>;
         }
 
         //staff of depart
