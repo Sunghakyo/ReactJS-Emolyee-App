@@ -12,7 +12,7 @@ export const Salary = (state = {
         case ActionTypes.STAFFS_FAILED:
             return { ...state, ...{ isLoading: false, errMess: action.payload, salary: [] } };
 
-        case ActionTypes.ADD_STAFFS:
+        case ActionTypes.UPDATE_STAFFS:
             return { ...state, ...{ isLoading: false, errMess: null, salary: action.payload } };
 
         default: return state;

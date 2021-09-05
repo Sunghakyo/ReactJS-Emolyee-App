@@ -21,7 +21,7 @@ export const fetchStaffs = () => (dispatch) => {
         .then(response => {
             return response.json();
         })
-        .then(staffs => dispatch(addStaffs(staffs)))
+        .then(response => dispatch(updateStaffs(response)))
         .catch(error => dispatch(staffsFailed(error.message)))
 };
 
@@ -105,8 +105,13 @@ export const deleteStaff = (id) => dispatch => {
             var errMess = new Error(error.message);
             throw errMess;
         })
-        .then(response => response.json())
-        .then(data => console.log(data))
+        .then(response => {
+            console.log(response);
+            var json = response.json();
+            console.log(json);
+            return json;
+        })
+        .then(response => dispatch(updateStaffs(response)))
         .catch(error => {
             console.log(error.message)
             alert(error.message)
@@ -123,10 +128,6 @@ export const staffsFailed = (errMess) => ({
 });
 
 
-export const addStaffs = (staffs) => ({
-    type: ActionTypes.ADD_STAFFS,
-    payload: staffs
-});
 export const updateStaffs = (staffs) => ({
     type: ActionTypes.UPDATE_STAFFS,
     payload: staffs
