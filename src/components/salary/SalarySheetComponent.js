@@ -26,8 +26,8 @@ class SalarySheet extends React.Component {
                 staffs: this.props.staffs.sort((a, b) => {
                     const basicSalary = 3000000;
                     const overTimeSalary = 200000;
-                    const salaryA = parseInt((a.salaryScale * basicSalary) + (a.overTime * overTimeSalary));
-                    const salaryB = parseInt((b.salaryScale * basicSalary) + (b.overTime * overTimeSalary));
+                    const salaryA = parseInt((a.salaryScale * basicSalary) + (a.overTime * overTimeSalary), 10);
+                    const salaryB = parseInt((b.salaryScale * basicSalary) + (b.overTime * overTimeSalary), 10);
                     return salaryB - salaryA;
                 })
             })
@@ -40,7 +40,7 @@ class SalarySheet extends React.Component {
         const SalaryCard = this.state.staffs.map((staff) => {
             const basicSalary = 3000000;
             const overTimeSalary = 200000;
-            const salary = parseInt((staff.salaryScale * basicSalary) + (staff.overTime * overTimeSalary));
+            const salary = parseInt((staff.salaryScale * basicSalary) + (staff.overTime * overTimeSalary), 10);
             return (
                 <div key={staff.id} className="col-12 col-md-6 col-lg-4">
                     <FadeTransform in

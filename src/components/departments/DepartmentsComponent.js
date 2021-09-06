@@ -34,7 +34,7 @@ function Department({ depart, departLoading, departFailed }) {
                                 <Fade in>
                                     <Card className="mt-3 mb-3">
                                         <CardTitle>
-                                            <h3>{department.name}</h3>
+                                            <p>{department.name}</p>
                                         </CardTitle>
                                         <CardBody>
                                             <p>Số lượng nhân viên {department.numberOfStaff}</p>
