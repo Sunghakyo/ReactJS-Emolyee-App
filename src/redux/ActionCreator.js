@@ -208,3 +208,41 @@ export const addSalary = (salary) => ({
     type: ActionTypes.ADD_SALARY,
     payload: salary
 });
+
+
+export const fetchStaffsDepart = (id) => dispatch => {
+    dispatch(staffsDepartLoading(true));
+
+    return fetch(baseUrl + `departments/${id}`)
+        .then(response => {
+            if (response.ok) {
+                return response;
+            } else {
+                var error = new Error(`Error${response.status}: ${response.statusText}`);
+                error.response = response;
+                throw error;
+            }
+        }, error => {
+            var errMess = new Error(error.message);
+            throw errMess;
+        })
+        .then(response => response.json())
+        .then(staffs => dispatch(staffsDepart(staffs)))
+        .catch(error => dispatch(staffsDepartFailed(error.message)))
+};
+
+
+export const staffsDepartLoading = () => ({
+    type: ActionTypes.STAFFS_DEPART_LOADING,
+
+});
+
+export const staffsDepart = (staffs) => ({
+    type: ActionTypes.STAFFS_DEPART,
+    payload: staffs
+});
+
+export const staffsDepartFailed = (errMess) => ({
+    type: ActionTypes.STAFFS_DEPART_FAILED,
+    payload: errMess
+});

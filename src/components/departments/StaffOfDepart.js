@@ -1,29 +1,44 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import {Loading} from '../common/LoadingComponent';
+import {connect} from 'react-redux';
+ 
+function RenderStaffs({ staffs, depart,isLoading ,errMess,}) {
+    if (isLoading) {
+        console.log('staffs',staffs)
+      return  <Loading /> 
+    } 
+    if (errMess) {
+        return {errMess}
+    } 
+    if (staffs) {
+        return staffs.map(staff => {
+            return (
+                <div key={staff.id} className="row" >
+                    <div className="col-12 col-md-2 col-lg-2">
+                        <img src="/assets/images/alberto.png" alt="avatar" />
+                    </div>
+                    <div className=" col-12 col-md-10 col-lg-10 ">
+                        <h2>Họ và tên: {staff.name}</h2>
+                        <p> Ngày sinh: {staff.doB} </p>
+                        <p>Ngày vào công ty:{staff.startDate}</p>
+                        <p>Phòng ban: {depart.name}</p>
+                        <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
+                        <p>Số ngày làm thêm: {staff.overTime}</p>
+                    </div>
+                </div >
+    
+            )
+        })
+    }
+   
+   }
+   
 
-function RenderStaffs({ staffs, depart }) {
-    return staffs.map(staff => {
-        return (
-            <div key={staff.id} className="row" >
-                <div className="col-12 col-md-2 col-lg-2">
-                    <img src="/assets/images/alberto.png" alt="avatar" />
-                </div>
-                <div className=" col-12 col-md-10 col-lg-10 ">
-                    <h2>Họ và tên: {staff.name}</h2>
-                    <p> Ngày sinh: {staff.doB} </p>
-                    <p>Ngày vào công ty:{staff.startDate}</p>
-                    <p>Phòng ban: {depart.name}</p>
-                    <p>Số ngày nghỉ còn lại: {staff.annualLeave}</p>
-                    <p>Số ngày làm thêm: {staff.overTime}</p>
-                </div>
-            </div >
 
-        )
-    })
-}
-
-export const StaffOfDepart = (props) => {
+ const StaffOfDepart = (props) => {
+    console.log('props',props)
     return (
         <div className="container">
             <div className="row">
@@ -46,11 +61,21 @@ export const StaffOfDepart = (props) => {
                     </BreadcrumbItem>
                 </Breadcrumb>
             </div>
-            {/* component render thẻ staff */}
             <RenderStaffs
-                staffs={props.staffs}
-                depart={props.depart} />
-
+                staffs={props.staffsDepart.staffsDepart}
+                isLoading={props.staffsDepart.isLoading}
+                errMess={props.staffsDepart.errMess}
+                depart={props.depart} /> 
         </div>
     )
 }
+
+const mapStateToProps = (state) => ({
+    staffsDepart: state.staffsDepart
+})
+
+const mapDispatchToProps = (dispatch)=> ({
+   
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(StaffOfDepart);

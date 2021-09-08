@@ -6,11 +6,11 @@ import { HomePage } from '../Layout/HomeComponent'
 import Departments from '../departments/DepartmentsComponent';
 import SalarySheet from '../salary/SalarySheetComponent';
 import DetailStaff from '../staffs/DetailStaffComponent';
-import { StaffOfDepart } from '../departments/StaffOfDepart';
+import StaffOfDepart  from '../departments/StaffOfDepart';
 import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import { Switch, Route, Redirect, withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { fetchStaffs, fetchDepartments, fetchSalary } from '../../redux/ActionCreator';
+import { fetchStaffs, fetchDepartments, fetchSalary, fetchStaffsDepart } from '../../redux/ActionCreator';
 
 const mapStateToProps = (state) => ({
     staffs: state.staffs,
@@ -22,6 +22,7 @@ const mapDispatchToProps = (dispatch) => ({
     fetchStaffs: () => dispatch(fetchStaffs()),
     fetchDepart: () => dispatch(fetchDepartments()),
     fetchSalary: () => dispatch(fetchSalary()),
+    fetchStaffsDepart: (id) => dispatch(fetchStaffsDepart(id))
 })
 
 class Main extends React.Component {
@@ -51,9 +52,9 @@ class Main extends React.Component {
 
         //staff of depart
         const departOfStaffs = ({ match }) => {
+            this.props.fetchStaffsDepart(match.params.departId)
             const depart = this.props.depart.departments.find(depart => depart.id === match.params.departId)
             return <StaffOfDepart
-                staffs={this.props.staffs.staffs.filter(staff => staff.departmentId === match.params.departId)}
                 depart={depart}
             />
         }
