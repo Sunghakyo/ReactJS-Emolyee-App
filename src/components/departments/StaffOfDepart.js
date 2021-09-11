@@ -1,9 +1,10 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Breadcrumb, BreadcrumbItem } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import {Loading} from '../common/LoadingComponent';
 import {connect} from 'react-redux';
- 
+import {fetchStaffsDepart} from '../../redux/ActionCreator'; 
+
 function RenderStaffs({ staffs, depart,isLoading ,errMess,}) {
     if (isLoading) {
         console.log('staffs',staffs)
@@ -35,10 +36,12 @@ function RenderStaffs({ staffs, depart,isLoading ,errMess,}) {
    
    }
    
-
-
  const StaffOfDepart = (props) => {
-    console.log('props',props)
+    
+    useEffect(()=> {
+        props.fetchStaffsDepart(props.departId)
+    },[])
+
     return (
         <div className="container">
             <div className="row">
@@ -75,7 +78,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch)=> ({
-   
+    fetchStaffsDepart: (id) => dispatch(fetchStaffsDepart(id))
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(StaffOfDepart);
